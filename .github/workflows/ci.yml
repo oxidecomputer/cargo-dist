@@ -10,10 +10,6 @@ on:
     branches:
       # The main branch
       - main
-  # And once a week?
-  # This can catch things like "rust updated and actually regressed something"
-  schedule:
-    - cron: "11 7 * * 1,4"
 
 # We want all these checks to fail if they spit out warnings
 env:
