@@ -138,7 +138,7 @@ pub enum AxoassetError {
         details: std::io::Error,
     },
 
-    /// This error inidcates that axoasset failed to copy a local asset.
+    /// This error indicates that axoasset failed to copy a local asset.
     #[error("failed to copy asset from {origin_path} to {dest_path}")]
     LocalAssetCopyFailed {
         /// The origin path of the asset, used as an identifier

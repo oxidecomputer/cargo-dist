@@ -43,7 +43,7 @@ First off, it handles setting up:
 * a panic handler (to get more control over output if the app panics)
 * (not implemented but likely in the future) a tokio runtime
 
-It also handles printing top-level errors, notably including a json_errors mode where the error gets formatted to json and printed to stdout, while still printing a human-friendly version to stderr. This is done for both an error returned from real_main and panics. So anything expecting machine-readable output from our apps will not freak out and get something unparseable when things error/panic. It will also set the process exit code on error (with std::process::exit, on the assumption that all cleanup was done when we returned/panicked out of real_main).
+It also handles printing top-level errors, notably including a json_errors mode where the error gets formatted to json and printed to stdout, while still printing a human-friendly version to stderr. This is done for both an error returned from real_main and panics. So anything expecting machine-readable output from our apps will not freak out and get something unparsable when things error/panic. It will also set the process exit code on error (with std::process::exit, on the assumption that all cleanup was done when we returned/panicked out of real_main).
 
 It also exposes the json diagnostic formatting machinery so you can Write them wherever or turn them into serde_json::Values. This is useful for
 returning a larger result with diagnostics nested inside of it (say, for reporting warnings).

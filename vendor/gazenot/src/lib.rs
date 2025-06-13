@@ -131,7 +131,7 @@ pub struct ReleaseKey {
     pub is_prerelease: bool,
 }
 
-/// Info needed to create an announement
+/// Info needed to create an announcement
 #[derive(Debug, Clone)]
 pub struct AnnouncementKey {
     /// Markdown to be rendered for the announcement.

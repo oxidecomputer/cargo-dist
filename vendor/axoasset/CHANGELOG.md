@@ -54,19 +54,19 @@ Fixes an issue where functions like `RemoteAsset::copy` would fail on files with
 
 [pr133]: https://github.com/axodotdev/axoasset/pull/133
 
-### Maintenace
+### Maintenance
 
 Updates several dependencies.
 
 ### v0.9.5 - 2024-05-22
 
-### Maintenace
+### Maintenance
 
 Relaxes the `reqwest` dependency range.
 
 ### v0.9.4 - 2024-05-22
 
-### Maintenace
+### Maintenance
 
 Updates several dependencies.
 
@@ -111,7 +111,7 @@ The underlying JSON parsing library used by axoasset doesn't currently support p
 
 - **Extract archives - [mistydemeo], [pr84]**
 
-Adds the ability to decompress tarballs and ZIP files from `LocalAsset`. Users can extract an entire archive to a directory via the `untar_gz_all`/`untar_xz_all`/`untar_zstd_all`/`unzip_all` methods, or extract individual files to bytearrays of their contents via the `untar_gz_file`/`untar_xz_file`/`untar_zstd_file`/`unzip_file` metods.
+Adds the ability to decompress tarballs and ZIP files from `LocalAsset`. Users can extract an entire archive to a directory via the `untar_gz_all`/`untar_xz_all`/`untar_zstd_all`/`unzip_all` methods, or extract individual files to bytearrays of their contents via the `untar_gz_file`/`untar_xz_file`/`untar_zstd_file`/`unzip_file` methods.
 
 [pr84]: https://github.com/axodotdev/axoasset/pull/84
 

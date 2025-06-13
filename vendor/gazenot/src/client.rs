@@ -696,7 +696,7 @@ impl Gazenot {
     pub fn download_artifact_set_url(&self, set: &ArtifactSet, filename: &str) -> ResultInner<Url> {
         // GET :owner.:hosting_server/:package/:public_id/
 
-        // We don't need a seperate staging server for hosting since we already have production
+        // We don't need a separate staging server for hosting since we already have production
         // broken up into tenants and it's just a simple CDN. So staging is just distinguished
         // by prefixing usernames thusly.
         let prefix = match self.deployment {
@@ -810,7 +810,7 @@ fn auth_headers(
     owner: &Owner,
     deployment: Deployment,
 ) -> ResultInner<HeaderMap> {
-    // extra-awkard code so you're on your toes and properly treat this like radioactive waste
+    // extra-awkward code so you're on your toes and properly treat this like radioactive waste
     // DO NOT UNDER ANY CIRCUMSTANCES PRINT THIS VALUE.
     // DO NOT IMPLEMENT DEBUG ON Abyss OR AbyssInner!!
     let auth = {

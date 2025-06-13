@@ -204,7 +204,7 @@ impl Cmd {
     pub fn status(&mut self) -> Result<ExitStatus> {
         #[cfg(not(feature = "stdout_to_stderr_modern"))]
         if self.stdout_to_stderr_polyfill {
-            // Emulate how status sets stderr to Inherit, simply refuse to acknowledge it being overriden
+            // Emulate how status sets stderr to Inherit, simply refuse to acknowledge it being overridden
             // (if they wanted to blackhole all output, why are they using stdout_to_stderr?)
             self.inner.stderr(std::process::Stdio::inherit());
             let out = self.output()?;
@@ -338,7 +338,7 @@ macro_rules! log {
 
 /// Diagnostic APIs (used internally, but available for yourself)
 impl Cmd {
-    /// Check `Status::success`, producing a contextful Error if it's `false`.`
+    /// Check `Status::success`, producing a contextual Error if it's `false`.`
     pub fn check_status(&self, status: ExitStatus) -> Result<()> {
         if status.success() {
             Ok(())

@@ -109,7 +109,7 @@ mod errors {
         #[diagnostic(help("pass at least 3 to the CLI"))]
         NotExcitedEnough,
 
-        /// Some random serde error occured
+        /// Some random serde error occurred
         #[error(transparent)]
         SerdeJson(#[from] serde_json::Error),
     }
