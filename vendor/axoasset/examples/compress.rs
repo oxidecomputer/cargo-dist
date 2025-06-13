@@ -28,6 +28,7 @@ fn main() {
     doit(args).unwrap()
 }
 
+#[allow(clippy::result_large_err)]
 fn doit(args: Cli) -> Result<(), AxoassetError> {
     #[cfg(feature = "compression-tar")]
     if args.dest_path.as_str().ends_with("tar.zstd") {
