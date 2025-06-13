@@ -3118,7 +3118,7 @@ CENSORED (see https://github.com/axodotdev/cargo-dist/issues/1477)  source.tar.g
             "host": "x86_64-apple-darwin",
             "install_dist": {
               "shell": "sh",
-              "run": "curl --proto '=https' --tlsv1.2 -LsSf https://github.com/axodotdev/cargo-dist/releases/download/vSOME_VERSION/cargo-dist-installer.sh | sh"
+              "run": "curl --proto '=https' --tlsv1.2 -LsSf https://github.com/oxidecomputer/cargo-dist/releases/download/vSOME_VERSION/cargo-dist-installer.sh | sh"
             },
             "dist_args": "--artifacts=local --target=aarch64-apple-darwin",
             "targets": [
@@ -3131,7 +3131,7 @@ CENSORED (see https://github.com/axodotdev/cargo-dist/issues/1477)  source.tar.g
             "host": "x86_64-apple-darwin",
             "install_dist": {
               "shell": "sh",
-              "run": "curl --proto '=https' --tlsv1.2 -LsSf https://github.com/axodotdev/cargo-dist/releases/download/vSOME_VERSION/cargo-dist-installer.sh | sh"
+              "run": "curl --proto '=https' --tlsv1.2 -LsSf https://github.com/oxidecomputer/cargo-dist/releases/download/vSOME_VERSION/cargo-dist-installer.sh | sh"
             },
             "dist_args": "--artifacts=local --target=x86_64-apple-darwin",
             "targets": [
@@ -3144,7 +3144,7 @@ CENSORED (see https://github.com/axodotdev/cargo-dist/issues/1477)  source.tar.g
             "host": "x86_64-unknown-linux-gnu",
             "install_dist": {
               "shell": "sh",
-              "run": "curl --proto '=https' --tlsv1.2 -LsSf https://github.com/axodotdev/cargo-dist/releases/download/vSOME_VERSION/cargo-dist-installer.sh | sh"
+              "run": "curl --proto '=https' --tlsv1.2 -LsSf https://github.com/oxidecomputer/cargo-dist/releases/download/vSOME_VERSION/cargo-dist-installer.sh | sh"
             },
             "dist_args": "--artifacts=local --target=x86_64-unknown-linux-gnu",
             "targets": [
@@ -3157,7 +3157,7 @@ CENSORED (see https://github.com/axodotdev/cargo-dist/issues/1477)  source.tar.g
             "host": "x86_64-unknown-linux-gnu",
             "install_dist": {
               "shell": "sh",
-              "run": "curl --proto '=https' --tlsv1.2 -LsSf https://github.com/axodotdev/cargo-dist/releases/download/vSOME_VERSION/cargo-dist-installer.sh | sh"
+              "run": "curl --proto '=https' --tlsv1.2 -LsSf https://github.com/oxidecomputer/cargo-dist/releases/download/vSOME_VERSION/cargo-dist-installer.sh | sh"
             },
             "dist_args": "--artifacts=local --target=x86_64-unknown-linux-musl",
             "targets": [
@@ -3241,7 +3241,7 @@ jobs:
         # we specify bash to get pipefail; it guards against the `curl` command
         # failing. otherwise `sh` won't catch that `curl` returned non-0
         shell: bash
-        run: "curl --proto '=https' --tlsv1.2 -LsSf https://github.com/axodotdev/cargo-dist/releases/download/vSOME_VERSION/cargo-dist-installer.sh | sh"
+        run: "curl --proto '=https' --tlsv1.2 -LsSf https://github.com/oxidecomputer/cargo-dist/releases/download/vSOME_VERSION/cargo-dist-installer.sh | sh"
       - name: Cache dist
         uses: actions/upload-artifact@v4
         with:
