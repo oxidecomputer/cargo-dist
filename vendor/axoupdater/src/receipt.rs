@@ -19,11 +19,13 @@ pub struct InstallReceipt {
     /// The path this app has been installed to
     pub install_prefix: Utf8PathBuf,
     /// A list of binaries installed by this app
-    pub binaries: Vec<String>,
+    #[serde(rename = "binaries")]
+    pub _binaries: Vec<String>,
     /// A list of libraries installed by this app
     // Added in cargo-dist 0.20.0, missing in older receipts
     #[serde(default = "Vec::new")]
-    pub cdylibs: Vec<String>,
+    #[serde(rename = "cdylibs")]
+    pub _cdylibs: Vec<String>,
     /// Information about where this release was fetched from
     pub source: ReleaseSource,
     /// Installed version
