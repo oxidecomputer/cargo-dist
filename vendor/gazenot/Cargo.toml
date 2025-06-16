@@ -28,7 +28,7 @@ url = { workspace = true, features = ["serde"], optional = true }
 tracing = { workspace = true, features = ["log"], optional = true }
 tokio = { workspace = true, features = ["full"], optional = true }
 camino = { workspace = true, optional = true }
-backon = { version = "0.4.1", optional = true }
+backon = { workspace = true, optional = true }
 
 [lints.clippy]
 result_large_err = "allow"
