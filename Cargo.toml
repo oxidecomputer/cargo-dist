@@ -60,7 +60,7 @@ uuid = { version = "1", features = ["v4"] }
 mach_object = "0.1"
 goblin = "0.8.2"
 similar = "2.7.0"
-tokio = { version = "1.43.0", features = ["full"] }
+tokio = { version = "1.45.1", features = ["full"] }
 temp-dir = "0.1.14"
 tempfile = "3.10.1"
 sha3 = "0.10.8"
