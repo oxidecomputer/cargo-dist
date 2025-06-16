@@ -332,7 +332,7 @@ pub enum AxoassetError {
         details: toml_edit::TomlError,
     },
 
-    /// This error indicates we tried to deserialize some YAML with serde_yml
+    /// This error indicates we tried to deserialize some YAML with serde_yaml
     /// but failed.
     #[cfg(feature = "yaml-serde")]
     #[error("failed to parse YAML")]
@@ -345,6 +345,6 @@ pub enum AxoassetError {
         span: Option<miette::SourceSpan>,
         /// Details of the error
         #[source]
-        details: serde_yml::Error,
+        details: serde_yaml::Error,
     },
 }

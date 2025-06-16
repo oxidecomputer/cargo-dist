@@ -14,8 +14,8 @@ toml-serde = ["toml", "serde"]
 json-serde = ["serde_json", "serde"]
 # Enable SourceFile support for deserializing using the "toml_edit" crate
 toml-edit = ["toml_edit"]
-# Enable SourceFile support for deserializing using the "serde_yml" crate
-yaml-serde = ["serde_yml", "serde"]
+# Enable SourceFile support for deserializing using the "serde_yaml" crate
+yaml-serde = ["serde_yaml", "serde"]
 # Enable reqwest-based http file fetching
 remote = ["reqwest", "image"]
 # On the off-chance native tls roots cause a problem, they can be opted out of
@@ -38,7 +38,7 @@ miette = { workspace = true }
 camino = { workspace = true }
 toml = { workspace = true, optional = true }
 serde_json = { workspace = true, optional = true }
-serde_yml = { workspace = true, optional = true }
+serde_yaml = { workspace = true, optional = true }
 serde = { workspace = true, optional = true, features = ["derive"] }
 tar = { workspace = true, optional = true }
 zip = { workspace = true, optional = true }
