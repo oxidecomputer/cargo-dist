@@ -89,7 +89,7 @@ httpmock = "0.7.0"
 serial_test = "3.2.0"
 backon = "1.5.1"
 image = { version = "0.25.6", default-features = false }
-mime = "0.3.16"
+mime = "0.3.17"
 reqwest = { version = ">=0.11.0", default-features = false }
 toml = "0.8.12"
 toml_edit = { version = "0.22.22" }
