@@ -35,71 +35,71 @@ axoprocess = { version = "0.2.0", path = "vendor/axoprocess" }
 gazenot = { version = "0.3.3", path = "vendor/gazenot" }
 
 # third-party deps
+assert_fs = "1.1.3"
+backon = "1.5.1"
+backtrace = "0.3.75"
+backtrace-ext = "0.2.1"
+base64 = "0.22.1"
+blake2 = "0.10.6"
+camino = { version = "1.1.10", features = ["serde1"] }
+cargo_metadata = "0.20.0"
+cargo-wix = "0.3.8"
 clap = { version = "4.5.40", features = ["derive"] }
-console = { version = "0.15.10" }
 clap-cargo = { version = "0.15.2" }
+color-backtrace = "0.7.0"
 comfy-table = "7.1.4"
+console = { version = "0.15.10" }
+current_platform = "0.2.0"
+dialoguer = "0.11.0"
+flate2 = "1.1.2"
+goblin = "0.8.2"
+guppy = "0.17.19"
+homedir = "0.3.4"
+httpmock = "0.7.0"
+image = { version = "0.25.6", default-features = false }
+include_dir = "0.7.4"
+insta = { version = "1.43.1", features = ["filters"] }
+itertools = "0.13.0"
+lazy_static = "1.5.0"
+liblzma = "0.4.1"
+mach_object = "0.1"
 miette = { version = "7.6.0" }
-thiserror = "2.0.12"
-tracing = { version = "0.1.41", features = ["log"] }
-tracing-subscriber = "0.3.19"
+mime = "0.3.17"
+minijinja = { version = "2.10.2", features = ["debug", "loader", "builtins", "json", "custom_syntax"] }
+newline-converter = "0.3.0"
+node-semver = "2.2.0"
+oro-common = "0.3.34"
+oro-package-spec = "0.3.34"
+parse-changelog = "0.6.12"
+pathdiff = { version = "0.2.3", features = ["camino"] }
+reqwest = { version = "0.12.0", default-features = false }
+schemars = "0.9.0"
+self-replace = "1.5.0"
+semver = "1.0.26"
 serde = { version = "1.0.219", features = ["derive"] }
 serde_json = { version = "1.0.140" }
 serde_yaml = { version = "0.9.34" }
-cargo_metadata = "0.20.0"
-camino = { version = "1.1.10", features = ["serde1"] }
-semver = "1.0.26"
-newline-converter = "0.3.0"
-dialoguer = "0.11.0"
+serial_test = "3.2.0"
 sha2 = "0.10.9"
-minijinja = { version = "2.10.2", features = ["debug", "loader", "builtins", "json", "custom_syntax"] }
-include_dir = "0.7.4"
-itertools = "0.13.0"
-cargo-wix = "0.3.8"
-uuid = { version = "1", features = ["v4"] }
-mach_object = "0.1"
-goblin = "0.8.2"
+sha3 = "0.10.8"
 similar = "2.7.0"
-tokio = { version = "1.45.1", features = ["full"] }
+spdx = "0.10.8"
+tar = "0.4.44"
+target-lexicon = { version = "0.13.2", features = ["std"] }
 temp-dir = "0.1.16"
 tempfile = "3.20.0"
-sha3 = "0.10.8"
-blake2 = "0.10.6"
-insta = { version = "1.43.1", features = ["filters"] }
-tar = "0.4.44"
-flate2 = "1.1.2"
-zip = { version = "4.1.0", default-features = false, features = ["deflate"] }
-liblzma = "0.4.1"
-zstd = { version = "0.13.0" }
-pathdiff = { version = "0.2.3", features = ["camino"] }
-url = "2.5.4"
-parse-changelog = "0.6.12"
-schemars = "0.9.0"
-spdx = "0.10.8"
-base64 = "0.22.1"
-lazy_static = "1.5.0"
-current_platform = "0.2.0"
-color-backtrace = "0.7.0"
-backtrace = "0.3.75"
-backtrace-ext = "0.2.1"
-target-lexicon = { version = "0.13.2", features = ["std"] }
-homedir = "0.3.4"
-self-replace = "1.5.0"
-httpmock = "0.7.0"
-serial_test = "3.2.0"
-backon = "1.5.1"
-image = { version = "0.25.6", default-features = false }
-mime = "0.3.17"
-reqwest = { version = "0.12.0", default-features = false }
+thiserror = "2.0.12"
+tokio = { version = "1.45.1", features = ["full"] }
 toml = "0.8.23"
 toml_edit = { version = "0.22.27" }
+tracing = { version = "0.1.41", features = ["log"] }
+tracing-subscriber = "0.3.19"
+url = "2.5.4"
+uuid = { version = "1", features = ["v4"] }
 walkdir = "2.5.0"
-assert_fs = "1.1.3"
 wiremock = "0.6.3"
-guppy = "0.17.19"
-oro-common = "0.3.34"
-oro-package-spec = "0.3.34"
-node-semver = "2.2.0"
+zip = { version = "4.1.0", default-features = false, features = ["deflate"] }
+zstd = { version = "0.13.0" }
 
 [workspace.metadata.release]
 shared-version = true
