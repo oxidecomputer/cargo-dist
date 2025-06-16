@@ -46,7 +46,7 @@ tracing-subscriber = "0.3.19"
 serde = { version = "1.0.219", features = ["derive"] }
 serde_json = { version = "1.0.140" }
 serde_yaml = { version = "0.9.34" }
-cargo_metadata = "0.18.1"
+cargo_metadata = "0.20.0"
 camino = { version = "1.1.9", features = ["serde1"] }
 semver = "1.0.25"
 newline-converter = "0.3.0"
