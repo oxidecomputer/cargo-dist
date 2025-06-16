@@ -98,7 +98,7 @@ impl DistInstallSettings<'_> {
         if let Some(url) = self.url_override.as_ref() {
             return DistInstallStrategy::Installer {
                 installer_url: url.as_str().to_owned(),
-                installer_name: "cargo-dist-installer".to_owned(),
+                installer_name: "dist-installer".to_owned(),
             };
         }
 
@@ -110,7 +110,7 @@ impl DistInstallSettings<'_> {
         } else if format.artifact_names_contain_versions() {
             format!("cargo-dist-v{version}-installer")
         } else {
-            "cargo-dist-installer".to_owned()
+            "dist-installer".to_owned()
         };
 
         DistInstallStrategy::Installer {
