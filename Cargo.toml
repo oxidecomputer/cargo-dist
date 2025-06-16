@@ -99,6 +99,7 @@ wiremock = "0.6.3"
 guppy = "0.17.19"
 oro-common = "0.3.34"
 oro-package-spec = "0.3.34"
+node-semver = "2.2.0"
 
 [workspace.metadata.release]
 shared-version = true
