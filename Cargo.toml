@@ -68,7 +68,7 @@ blake2 = "0.10.6"
 insta = { version = "1.43.1", features = ["filters"] }
 tar = "0.4.44"
 flate2 = "1.1.2"
-zip = { version = "0.6.4" }
+zip = { version = "4.1.0", default-features = false, features = ["deflate"] }
 xz2 = { version = "0.1.7" }
 zstd = { version = "0.13.0" }
 pathdiff = { version = "0.2.3", features = ["camino"] }
