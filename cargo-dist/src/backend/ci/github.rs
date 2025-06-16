@@ -638,7 +638,7 @@ pub fn runner_to_config(runner: &GithubRunnerRef) -> GithubRunnerConfig {
     }
 }
 
-const DEFAULT_LINUX_RUNNER: &GithubRunnerRef = GithubRunnerRef::from_str("ubuntu-24.04");
+const DEFAULT_LINUX_RUNNER: &GithubRunnerRef = GithubRunnerRef::from_str("ubuntu-22.04");
 
 fn default_global_runner_config() -> GithubRunnerConfig {
     runner_to_config(DEFAULT_LINUX_RUNNER)
