@@ -37,7 +37,7 @@ gazenot = { version = "0.3.3", path = "vendor/gazenot" }
 # third-party deps
 clap = { version = "4.5.40", features = ["derive"] }
 console = { version = "0.15.10" }
-clap-cargo = { version = "0.14.0" }
+clap-cargo = { version = "0.15.2" }
 comfy-table = "7.1.4"
 miette = { version = "7.5.0" }
 thiserror = "2.0.11"
