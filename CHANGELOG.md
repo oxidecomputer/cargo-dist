@@ -1,6 +1,9 @@
 # Unreleased
 
-Nothing Yet!
+## Fixes
+
+- Update GitHub Linux and Windows default runners to `ubuntu-22.04` and `windows-2022`.
+- Remove EOL `ubuntu-20.04` and `windows-2019` GitHub runners.
 
 # Version 0.28.0 (2025-01-08)
 
