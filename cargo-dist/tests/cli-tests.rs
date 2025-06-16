@@ -234,7 +234,7 @@ fn generate_installer(version: &axotag::Version, release_type: ReleaseSourceType
         .unwrap()
         .join("target")
         .join("distrib")
-        .join(format!("cargo-dist-installer{ext}"));
+        .join(format!("dist-installer{ext}"));
     let installer_string = std::fs::read_to_string(&installer_path).unwrap();
 
     let installer_url = match release_type {
