@@ -48,8 +48,8 @@ pub(crate) fn tar_dir(
 ) -> crate::error::Result<()> {
     use crate::error::*;
     use flate2::{Compression, GzBuilder};
+    use liblzma::write::XzEncoder;
     use std::fs;
-    use xz2::write::XzEncoder;
     use zstd::stream::Encoder as ZstdEncoder;
 
     // Set up the archive/compression
@@ -212,7 +212,7 @@ fn decompress_tarball_bytes(
     use std::io::Read;
 
     use flate2::read::GzDecoder;
-    use xz2::read::XzDecoder;
+    use liblzma::read::XzDecoder;
     use zstd::stream::Decoder as ZstdDecoder;
 
     match compression {

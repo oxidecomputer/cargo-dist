@@ -69,7 +69,7 @@ insta = { version = "1.43.1", features = ["filters"] }
 tar = "0.4.44"
 flate2 = "1.1.2"
 zip = { version = "4.1.0", default-features = false, features = ["deflate"] }
-xz2 = { version = "0.1.7" }
+liblzma = "0.4.1"
 zstd = { version = "0.13.0" }
 pathdiff = { version = "0.2.3", features = ["camino"] }
 url = "2.5.4"

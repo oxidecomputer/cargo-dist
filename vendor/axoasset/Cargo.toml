@@ -24,7 +24,7 @@ tls-native-roots = ["reqwest/rustls-tls-native-roots"]
 # Enable support for reading and writing zips and tarballs
 compression = ["compression-tar", "compression-zip"]
 # Enable support for reading and writing tarballs
-compression-tar = ["flate2", "tar", "xz2", "zstd"]
+compression-tar = ["flate2", "tar", "liblzma", "zstd"]
 # Enable support for reading and writing zips
 compression-zip = ["zip"]
 
@@ -43,7 +43,7 @@ serde = { workspace = true, optional = true, features = ["derive"] }
 tar = { workspace = true, optional = true }
 zip = { workspace = true, optional = true }
 flate2 = { workspace = true, optional = true }
-xz2 = { workspace = true, optional = true, features = ["static"] }
+liblzma = { workspace = true, optional = true, features = ["static"] }
 zstd = { workspace = true, optional = true }
 toml_edit = { workspace = true, optional = true }
 walkdir = { workspace = true }
