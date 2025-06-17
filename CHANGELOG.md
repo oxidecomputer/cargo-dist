@@ -2,6 +2,12 @@
 
 Nothing Yet!
 
+# Version 1.0.1 (2025-06-17)
+
+## Fixes
+
+- Fix minimum glibc version at which we fall back to musl.
+
 # Version 1.0.0 (2025-06-17)
 
 ## Fixes
