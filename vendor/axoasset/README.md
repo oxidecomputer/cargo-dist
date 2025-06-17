@@ -41,6 +41,7 @@ conditions.
 If you are interested in contributing, please read our [CONTRIBUTING notes] and our [Code of Conduct].
 
 **Copyright 2022 Axo Developer Co.**
+**Copyright 2025 Oxide Computer Company**
 
 [CONTRIBUTING notes]: CONTRIBUTING.md
 [Code of Conduct]: CODE_OF_CONDUCT.md
