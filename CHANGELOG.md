@@ -1,5 +1,9 @@
 # Unreleased
 
+Nothing Yet!
+
+# Version 1.0.0 (2025-06-17)
+
 ## Fixes
 
 - Update GitHub Linux and Windows default runners to `ubuntu-22.04` and `windows-2022`.
