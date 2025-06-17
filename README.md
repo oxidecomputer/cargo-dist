@@ -4,9 +4,15 @@
 
 </div>
 
-[![crates.io](https://img.shields.io/crates/v/cargo-dist.svg)](https://crates.io/crates/cargo-dist)
-[![docs](https://docs.rs/cargo-dist/badge.svg)](https://docs.rs/cargo-dist)
-[![Rust CI](https://github.com/axodotdev/cargo-dist/workflows/Rust%20CI/badge.svg?branch=main)](https://github.com/axodotdev/cargo-dist/actions/workflows/ci.yml)
+[![Rust CI](https://github.com/oxidecomputer/cargo-dist/workflows/Rust%20CI/badge.svg?branch=main)](https://github.com/oxidecomputer/cargo-dist/actions/workflows/ci.yml)
+
+## Fork Status
+
+This is a fork of `dist` intended for Oxide's internal use.
+
+Contributions may be accepted, but we do not intend to add any new features or fix any issues that do not directly impact our workflows.
+
+## Dist
 
 *dist distributes your binaries*
 
