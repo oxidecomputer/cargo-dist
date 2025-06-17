@@ -2696,7 +2696,7 @@ install(false);
   },
   "glibcMinimum": {
     "major": 2,
-    "series": 31
+    "series": 35
   },
   "homepage": "https://github.com/axodotdev/axolotlsay",
   "license": "MIT OR Apache-2.0",

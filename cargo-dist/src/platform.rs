@@ -319,7 +319,7 @@ impl LibcVersion {
     pub fn default_glibc() -> Self {
         Self {
             major: 2,
-            series: 31,
+            series: 35,
         }
     }
 
@@ -940,7 +940,7 @@ fn native_glibc_version(system: &SystemInfo, linkage: &Linkage) -> Option<LibcVe
                 // If there's a system libc, assume that's what it was built against
                 return Some(LibcVersion::glibc_from_schema(system_glibc));
             } else {
-                // If the system has no known libc version use Ubuntu 20.04's glibc as a guess
+                // If the system has no known libc version use Ubuntu 22.04's glibc as a guess
                 return Some(LibcVersion::default_glibc());
             }
         }
