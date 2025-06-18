@@ -268,7 +268,7 @@ impl Default for GlibcVersion {
         Self {
             // Values from the default Ubuntu runner
             major: 2,
-            series: 31,
+            series: 35,
         }
     }
 }

@@ -2,6 +2,12 @@
 
 Nothing Yet!
 
+# Version 1.0.2 (2025-06-19)
+
+## Fixes
+
+- Fix the other place the minimum glibc version is set.
+
 # Version 1.0.1 (2025-06-17)
 
 ## Fixes
