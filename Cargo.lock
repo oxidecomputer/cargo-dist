@@ -397,7 +397,7 @@ dependencies = [
 
 [[package]]
 name = "axoproject"
-version = "1.0.1"
+version = "1.0.2"
 dependencies = [
  "axoasset",
  "axoprocess",
@@ -1130,7 +1130,7 @@ dependencies = [
 
 [[package]]
 name = "dist"
-version = "1.0.1"
+version = "1.0.2"
 dependencies = [
  "axoasset",
  "axocli",
@@ -1181,7 +1181,7 @@ dependencies = [
 
 [[package]]
 name = "dist-schema"
-version = "1.0.1"
+version = "1.0.2"
 dependencies = [
  "camino",
  "gazenot",
