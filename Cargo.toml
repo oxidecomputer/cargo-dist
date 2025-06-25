@@ -52,7 +52,7 @@ console = { version = "0.15.10" }
 current_platform = "0.2.0"
 dialoguer = "0.11.0"
 flate2 = "1.1.2"
-goblin = "0.8.2"
+goblin = "0.10.0"
 guppy = "0.17.19"
 homedir = "0.3.4"
 httpmock = "0.7.0"
