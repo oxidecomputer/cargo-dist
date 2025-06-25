@@ -35,7 +35,7 @@ expression: json_schema
       ]
     },
     "announcement_tag_is_implicit": {
-      "description": "True if --tag wasn't explicitly passed to dist. This usually indicates\n some kind of dry-run state like pr-run-mode=upload. Some third-party tools\n may use this as a proxy for \"is dry run\"",
+      "description": "True if --tag wasn't explicitly passed to dist. This usually indicates\nsome kind of dry-run state like pr-run-mode=upload. Some third-party tools\nmay use this as a proxy for \"is dry run\"",
       "type": "boolean",
       "default": false
     },
@@ -84,7 +84,7 @@ expression: json_schema
       "default": false
     },
     "github_attestations": {
-      "description": "Whether Artifact Attestations should be found in the GitHub Release\n\n <https://github.blog/2024-05-02-introducing-artifact-attestations-now-in-public-beta/>",
+      "description": "Whether Artifact Attestations should be found in the GitHub Release\n\n<https://github.blog/2024-05-02-introducing-artifact-attestations-now-in-public-beta/>",
       "type": "boolean"
     },
     "linkage": {
@@ -108,7 +108,7 @@ expression: json_schema
       }
     },
     "system_info": {
-      "description": "Info about the toolchain used to build this announcement\n\n DEPRECATED: never appears anymore",
+      "description": "Info about the toolchain used to build this announcement\n\nDEPRECATED: never appears anymore",
       "anyOf": [
         {
           "$ref": "#/$defs/SystemInfo"
@@ -136,7 +136,7 @@ expression: json_schema
   },
   "$defs": {
     "Artifact": {
-      "description": "A distributable artifact that's part of a Release\n\n i.e. a zip or installer",
+      "description": "A distributable artifact that's part of a Release\n\ni.e. a zip or installer",
       "type": "object",
       "properties": {
         "description": {
@@ -155,16 +155,20 @@ expression: json_schema
         },
         "checksum": {
           "description": "id of an Artifact that contains the checksum for this Artifact",
-          "type": [
-            "string",
-            "null"
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactId"
+            },
+            {
+              "type": "null"
+            }
           ]
         },
         "checksums": {
-          "description": "checksums for this artifact\n\n keys are the name of an algorithm like \"sha256\" or \"sha512\"\n values are the actual hex string of the checksum",
+          "description": "checksums for this artifact\n\nkeys are the name of an algorithm like \"sha256\" or \"sha512\"\nvalues are the actual hex string of the checksum",
           "type": "object",
           "additionalProperties": {
-            "type": "string"
+            "$ref": "#/$defs/ChecksumValue"
           }
         },
         "install_hint": {
@@ -175,10 +179,14 @@ expression: json_schema
           ]
         },
         "name": {
-          "description": "The unique name of the artifact (e.g. `myapp-v1.0.0-x86_64-pc-windows-msvc.zip`)\n\n If this is missing then that indicates the artifact is purely informative and has\n no physical files associated with it. This may be used (in the future) to e.g.\n indicate you can install the application with `cargo install` or `npm install`.",
-          "type": [
-            "string",
-            "null"
+          "description": "The unique name of the artifact (e.g. `myapp-v1.0.0-x86_64-pc-windows-msvc.zip`)\n\nIf this is missing then that indicates the artifact is purely informative and has\nno physical files associated with it. This may be used (in the future) to e.g.\nindicate you can install the application with `cargo install` or `npm install`.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactId"
+            },
+            {
+              "type": "null"
+            }
           ]
         },
         "path": {
@@ -192,7 +200,7 @@ expression: json_schema
           "description": "The target triple of the bundle",
           "type": "array",
           "items": {
-            "type": "string"
+            "$ref": "#/$defs/TripleName"
           }
         }
       },
@@ -328,7 +336,7 @@ expression: json_schema
           ]
         },
         {
-          "description": "Unknown to this version of cargo-dist-schema\n\n This is a fallback for forward/backward-compat",
+          "description": "Unknown to this version of cargo-dist-schema\n\nThis is a fallback for forward/backward-compat",
           "type": "object",
           "properties": {
             "kind": {
@@ -341,6 +349,10 @@ expression: json_schema
           ]
         }
       ]
+    },
+    "ArtifactId": {
+      "description": "The unique ID of an Artifact",
+      "type": "string"
     },
     "ArtifactSet": {
       "description": "A handle for talking about ArtifactSets",
@@ -491,7 +503,7 @@ expression: json_schema
           ]
         },
         {
-          "description": "Unknown to this version of cargo-dist-schema\n\n This is a fallback for forward/backward-compat",
+          "description": "Unknown to this version of cargo-dist-schema\n\nThis is a fallback for forward/backward-compat",
           "type": "object",
           "properties": {
             "kind": {
@@ -533,10 +545,10 @@ expression: json_schema
           "type": "string"
         },
         "target_triples": {
-          "description": "rust-style target triples the Asset natively supports\n\n * length 0: not a meaningful question, maybe some static file\n * length 1: typical of binaries\n * length 2+: some kind of universal binary",
+          "description": "rust-style target triples the Asset natively supports\n\n* length 0: not a meaningful question, maybe some static file\n* length 1: typical of binaries\n* length 2+: some kind of universal binary",
           "type": "array",
           "items": {
-            "type": "string"
+            "$ref": "#/$defs/TripleName"
           }
         }
       },
@@ -558,7 +570,7 @@ expression: json_schema
               "type": "object",
               "properties": {
                 "glibc_version": {
-                  "description": "The builder's glibc version, relevant to glibc-based\n builds.",
+                  "description": "The builder's glibc version, relevant to glibc-based\nbuilds.",
                   "anyOf": [
                     {
                       "$ref": "#/$defs/GlibcVersion"
@@ -610,6 +622,10 @@ expression: json_schema
         }
       ]
     },
+    "ChecksumValue": {
+      "description": "A checksum value, usually the lower-cased hex string of the checksum",
+      "type": "string"
+    },
     "CiInfo": {
       "description": "CI backend info",
       "type": "object",
@@ -632,12 +648,12 @@ expression: json_schema
       "type": "object",
       "properties": {
         "host": {
-          "description": "The host triple of the container, something like `x86_64-unknown-linux-gnu`\n or `aarch64-unknown-linux-musl` or whatever.",
-          "type": "string"
+          "description": "The host triple of the container, something like `x86_64-unknown-linux-gnu`\nor `aarch64-unknown-linux-musl` or whatever.",
+          "$ref": "#/$defs/TripleName"
         },
         "image": {
-          "description": "The container image to run, something like `ubuntu:20.04` or\n `quay.io/pypa/manylinux_2_28_x86_64`",
-          "type": "string"
+          "description": "The container image to run, something like `ubuntu:20.04` or\n`quay.io/pypa/manylinux_2_28_x86_64`",
+          "$ref": "#/$defs/ContainerImage"
         },
         "package_manager": {
           "description": "The package manager to use within the container, like `apt`.",
@@ -656,15 +672,27 @@ expression: json_schema
         "host"
       ]
     },
+    "ContainerImage": {
+      "description": "A container image, like `quay.io/pypa/manylinux_2_28_x86_64`",
+      "type": "string"
+    },
+    "DashScript": {
+      "description": "A bit of shell script (that can run with `/bin/sh`), ran on CI runners. Can be multi-line.",
+      "type": "string"
+    },
     "DynamicLibraryAsset": {
       "description": "A C dynamic library artifact (so/dylib/dll)",
       "type": "object",
       "properties": {
         "symbols_artifact": {
           "description": "The name of the Artifact containing symbols for this library",
-          "type": [
-            "string",
-            "null"
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactId"
+            },
+            {
+              "type": "null"
+            }
           ]
         }
       }
@@ -713,9 +741,13 @@ expression: json_schema
       "properties": {
         "symbols_artifact": {
           "description": "The name of the Artifact containing symbols for this executable",
-          "type": [
-            "string",
-            "null"
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactId"
+            },
+            {
+              "type": "null"
+            }
           ]
         }
       }
@@ -728,7 +760,7 @@ expression: json_schema
           "type": "object",
           "properties": {
             "run": {
-              "type": "string"
+              "$ref": "#/$defs/DashScript"
             },
             "shell": {
               "type": "string",
@@ -745,7 +777,7 @@ expression: json_schema
           "type": "object",
           "properties": {
             "run": {
-              "type": "string"
+              "$ref": "#/$defs/PowershellScript"
             },
             "shell": {
               "type": "string",
@@ -799,11 +831,11 @@ expression: json_schema
       "type": "object",
       "properties": {
         "artifact_base_url": {
-          "description": "The URL of the host for GitHub, usually `\"https://github.com\"`\n (This can vary for GitHub Enterprise)",
+          "description": "The URL of the host for GitHub, usually `\"https://github.com\"`\n(This can vary for GitHub Enterprise)",
           "type": "string"
         },
         "artifact_download_path": {
-          "description": "The path of the release without the base URL\n\n e.g. `/myowner/myrepo/releases/download/v1.0.0/`",
+          "description": "The path of the release without the base URL\n\ne.g. `/myowner/myrepo/releases/download/v1.0.0/`",
           "type": "string"
         },
         "owner": {
@@ -834,7 +866,7 @@ expression: json_schema
           ]
         },
         "container": {
-          "description": "Container image to run the job in, using GitHub's builtin\n container support, see <https://docs.github.com/en/actions/writing-workflows/choosing-where-your-workflow-runs/running-jobs-in-a-container>\n\n This doesn't allow mounting volumes, or anything, because we're only able\n to set the `container` key to something stringy",
+          "description": "Container image to run the job in, using GitHub's builtin\ncontainer support, see <https://docs.github.com/en/actions/writing-workflows/choosing-where-your-workflow-runs/running-jobs-in-a-container>\n\nThis doesn't allow mounting volumes, or anything, because we're only able\nto set the `container` key to something stringy",
           "anyOf": [
             {
               "$ref": "#/$defs/ContainerConfig"
@@ -849,8 +881,8 @@ expression: json_schema
           "type": "string"
         },
         "host": {
-          "description": "Host triple of the runner (well-known, custom, or best guess).\n If the runner is one of GitHub's official runner images, the platform\n is hardcoded. If it's custom, then we have a `target_triple => runner` in the config",
-          "type": "string"
+          "description": "Host triple of the runner (well-known, custom, or best guess).\nIf the runner is one of GitHub's official runner images, the platform\nis hardcoded. If it's custom, then we have a `target_triple => runner` in the config",
+          "$ref": "#/$defs/TripleName"
         },
         "install_cargo_auditable": {
           "description": "Expression to execute to install cargo-auditable",
@@ -880,14 +912,18 @@ expression: json_schema
         },
         "packages_install": {
           "description": "Command to run to install dependencies",
-          "type": [
-            "string",
-            "null"
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PackageInstallScript"
+            },
+            {
+              "type": "null"
+            }
           ]
         },
         "runner": {
-          "description": "GHA's `runs-on` key: Github Runner image to use, see <https://github.com/actions/runner-images>\n and <https://docs.github.com/en/actions/writing-workflows/choosing-where-your-workflow-runs/choosing-the-runner-for-a-job>\n\n This is not necessarily a well-known runner, it could be something self-hosted, it\n could be from BuildJet, Namespace, etc.",
-          "type": "string"
+          "description": "GHA's `runs-on` key: Github Runner image to use, see <https://github.com/actions/runner-images>\nand <https://docs.github.com/en/actions/writing-workflows/choosing-where-your-workflow-runs/choosing-the-runner-for-a-job>\n\nThis is not necessarily a well-known runner, it could be something self-hosted, it\ncould be from BuildJet, Namespace, etc.",
+          "$ref": "#/$defs/GithubRunner"
         },
         "targets": {
           "description": "Target triples to build for",
@@ -896,7 +932,7 @@ expression: json_schema
             "null"
           ],
           "items": {
-            "type": "string"
+            "$ref": "#/$defs/TripleName"
           }
         }
       },
@@ -919,6 +955,10 @@ expression: json_schema
           }
         }
       }
+    },
+    "GithubRunner": {
+      "description": "The name of a Github Actions Runner, like `ubuntu-20.04` or `macos-13`",
+      "type": "string"
     },
     "GlibcVersion": {
       "description": "Minimum glibc version required to run software",
@@ -1047,6 +1087,10 @@ expression: json_schema
         }
       }
     },
+    "PackageInstallScript": {
+      "description": "A bit of shell script to install brew/apt/chocolatey/etc. packages",
+      "type": "string"
+    },
     "PackageManager": {
       "description": "Represents the package manager a library was installed by",
       "oneOf": [
@@ -1061,6 +1105,10 @@ expression: json_schema
           "const": "apt"
         }
       ]
+    },
+    "PowershellScript": {
+      "description": "A bit of powershell script, ran on CI runners. Can be multi-line.",
+      "type": "string"
     },
     "PrRunMode": {
       "description": "Type of job to run on pull request",
@@ -1098,7 +1146,7 @@ expression: json_schema
           "description": "The artifacts for this release (zips, debuginfo, metadata...)",
           "type": "array",
           "items": {
-            "type": "string"
+            "$ref": "#/$defs/ArtifactId"
           }
         },
         "display": {
@@ -1142,9 +1190,13 @@ expression: json_schema
       "properties": {
         "symbols_artifact": {
           "description": "The name of the Artifact containing symbols for this library",
-          "type": [
-            "string",
-            "null"
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArtifactId"
+            },
+            {
+              "type": "null"
+            }
           ]
         }
       }
@@ -1173,6 +1225,10 @@ expression: json_schema
         "id",
         "build_environment"
       ]
+    },
+    "TripleName": {
+      "description": "A rustc-like target triple/tuple (e.g. \"x86_64-pc-windows-msvc\")",
+      "type": "string"
     }
   }
 }
