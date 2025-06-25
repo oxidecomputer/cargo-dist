@@ -59,7 +59,7 @@ httpmock = "0.7.0"
 image = { version = "0.25.6", default-features = false }
 include_dir = "0.7.4"
 insta = { version = "1.43.1", features = ["filters"] }
-itertools = "0.13.0"
+itertools = "0.14.0"
 lazy_static = "1.5.0"
 liblzma = "0.4.1"
 mach_object = "0.1"
