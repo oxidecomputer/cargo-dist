@@ -99,7 +99,7 @@ uuid = { version = "1.17.0", features = ["v4"] }
 walkdir = "2.5.0"
 wiremock = "0.6.4"
 zip = { version = "4.2.0", default-features = false, features = ["deflate"] }
-zstd = { version = "0.13.0" }
+zstd = { version = "0.13.3" }
 
 [workspace.metadata.release]
 shared-version = true
