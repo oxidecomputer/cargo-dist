@@ -62,7 +62,7 @@ insta = { version = "1.43.1", features = ["filters"] }
 itertools = "0.14.0"
 lazy_static = "1.5.0"
 liblzma = "0.4.2"
-mach_object = "0.1"
+mach_object = "0.1.17"
 miette = { version = "7.6.0" }
 mime = "0.3.17"
 minijinja = { version = "2.10.2", features = ["debug", "loader", "builtins", "json", "custom_syntax"] }
