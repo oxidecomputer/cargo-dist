@@ -5,6 +5,8 @@ name: Rust CI
 on:
   # Every pull request (will need approval for new contributors)
   pull_request:
+  # Merge queues
+  merge_group:
   # Every push to...
   push:
     branches:
