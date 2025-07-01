@@ -65,7 +65,7 @@ liblzma = "0.4.2"
 mach_object = "0.1.17"
 miette = "7.6.0"
 mime = "0.3.17"
-minijinja = { version = "2.10.2", features = ["debug", "loader", "builtins", "json", "custom_syntax"] }
+minijinja = { version = "2.11.0", features = ["debug", "loader", "builtins", "json", "custom_syntax"] }
 newline-converter = "0.3.0"
 node-semver = "2.2.0"
 oro-common = "0.3.34"
