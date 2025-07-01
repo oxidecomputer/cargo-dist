@@ -292,7 +292,7 @@ pub(crate) fn zip_dir(
     with_root: Option<&Utf8Path>,
 ) -> crate::error::Result<()> {
     zip_dir_impl(src_path, dest_path, with_root).map_err(|details| AxoassetError::Compression {
-        reason: format!("failed to write zip: {}", dest_path),
+        reason: format!("failed to write zip: {dest_path}"),
         details: details.into(),
     })
 }

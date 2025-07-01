@@ -504,7 +504,7 @@ impl std::str::FromStr for InstallPathStrategy {
 impl std::fmt::Display for InstallPathStrategy {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            InstallPathStrategy::CargoHome => write!(f, "{}", CARGO_HOME_INSTALL_PATH),
+            InstallPathStrategy::CargoHome => write!(f, "{CARGO_HOME_INSTALL_PATH}"),
             InstallPathStrategy::HomeSubdir { subdir } => write!(f, "~/{subdir}"),
             InstallPathStrategy::EnvSubdir { env_key, subdir } => write!(f, "${env_key}/{subdir}"),
         }

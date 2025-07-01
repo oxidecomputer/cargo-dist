@@ -257,7 +257,7 @@ impl Display for DisabledReason {
             Self::DistFalse => write!(f, "dist = false"),
             Self::PublishFalse => write!(f, "publish = false"),
             Self::NoArtifacts { kinds } => write!(f, "no {}", kinds.join(" ")),
-            Self::TagNotMatched { tag } => write!(f, "didn't match tag {}", tag),
+            Self::TagNotMatched { tag } => write!(f, "didn't match tag {tag}"),
         }
     }
 }
@@ -504,7 +504,7 @@ fn select_packages(
         // Report each binary and potentially add it to the Release for this package
         let mut binaries = vec![];
         for binary in &pkg.binaries {
-            info!("    {}", sty.apply_to(format!("[bin] {}", binary)));
+            info!("    {}", sty.apply_to(format!("[bin] {binary}")));
             // In the future might want to allow this to be granular for each binary
             if disabled_reason.is_none() {
                 binaries.push(binary.to_owned());
@@ -513,7 +513,7 @@ fn select_packages(
 
         let mut cdylibs = vec![];
         for library in &pkg.cdylibs {
-            info!("    {}", sty.apply_to(format!("[cdylib] {}", library)));
+            info!("    {}", sty.apply_to(format!("[cdylib] {library}")));
             // In the future might want to allow this to be granular for each library
             if disabled_reason.is_none() {
                 cdylibs.push(library.to_owned());
@@ -521,7 +521,7 @@ fn select_packages(
         }
         let mut cstaticlibs = vec![];
         for library in &pkg.cstaticlibs {
-            info!("    {}", sty.apply_to(format!("[cstaticlib] {}", library)));
+            info!("    {}", sty.apply_to(format!("[cstaticlib] {library}")));
             // In the future might want to allow this to be granular for each library
             if disabled_reason.is_none() {
                 cstaticlibs.push(library.to_owned());
@@ -910,8 +910,8 @@ pub fn announcement_github(manifest: &mut DistManifest) {
         if !global_installers.is_empty() {
             writeln!(gh_body, "## Install {heading_suffix}\n").unwrap();
             for (desc, hint) in global_installers {
-                writeln!(&mut gh_body, "### {}\n", desc).unwrap();
-                writeln!(&mut gh_body, "```sh\n{}\n```\n", hint).unwrap();
+                writeln!(&mut gh_body, "### {desc}\n").unwrap();
+                writeln!(&mut gh_body, "```sh\n{hint}\n```\n").unwrap();
             }
         }
 

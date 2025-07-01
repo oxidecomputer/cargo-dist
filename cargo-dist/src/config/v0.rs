@@ -729,111 +729,111 @@ impl DistMetadata {
 
         // Check for global settings on local packages
         if cargo_dist_version.is_some() {
-            warn!("package.metadata.dist.cargo-dist-version is set, but this is only accepted in workspace.metadata (value is being ignored): {}", package_manifest_path);
+            warn!("package.metadata.dist.cargo-dist-version is set, but this is only accepted in workspace.metadata (value is being ignored): {package_manifest_path}");
         }
         if cargo_dist_url_override.is_some() {
-            warn!("package.metadata.dist.cargo-dist-url-override is set, but this is only accepted in workspace.metadata (value is being ignored): {}", package_manifest_path);
+            warn!("package.metadata.dist.cargo-dist-url-override is set, but this is only accepted in workspace.metadata (value is being ignored): {package_manifest_path}");
         }
         if rust_toolchain_version.is_some() {
-            warn!("package.metadata.dist.rust-toolchain-version is set, but this is only accepted in workspace.metadata (value is being ignored): {}", package_manifest_path);
+            warn!("package.metadata.dist.rust-toolchain-version is set, but this is only accepted in workspace.metadata (value is being ignored): {package_manifest_path}");
         }
         if ci.is_some() {
-            warn!("package.metadata.dist.ci is set, but this is only accepted in workspace.metadata (value is being ignored): {}", package_manifest_path);
+            warn!("package.metadata.dist.ci is set, but this is only accepted in workspace.metadata (value is being ignored): {package_manifest_path}");
         }
         if precise_builds.is_some() {
-            warn!("package.metadata.dist.precise-builds is set, but this is only accepted in workspace.metadata (value is being ignored): {}", package_manifest_path);
+            warn!("package.metadata.dist.precise-builds is set, but this is only accepted in workspace.metadata (value is being ignored): {package_manifest_path}");
         }
         if merge_tasks.is_some() {
-            warn!("package.metadata.dist.merge-tasks is set, but this is only accepted in workspace.metadata (value is being ignored): {}", package_manifest_path);
+            warn!("package.metadata.dist.merge-tasks is set, but this is only accepted in workspace.metadata (value is being ignored): {package_manifest_path}");
         }
         if fail_fast.is_some() {
-            warn!("package.metadata.dist.fail-fast is set, but this is only accepted in workspace.metadata (value is being ignored): {}", package_manifest_path);
+            warn!("package.metadata.dist.fail-fast is set, but this is only accepted in workspace.metadata (value is being ignored): {package_manifest_path}");
         }
         if cache_builds.is_some() {
-            warn!("package.metadata.dist.cache-builds is set, but this is only accepted in workspace.metadata (value is being ignored): {}", package_manifest_path);
+            warn!("package.metadata.dist.cache-builds is set, but this is only accepted in workspace.metadata (value is being ignored): {package_manifest_path}");
         }
         if build_local_artifacts.is_some() {
-            warn!("package.metadata.dist.build-local-artifacts is set, but this is only accepted in workspace.metadata (value is being ignored): {}", package_manifest_path);
+            warn!("package.metadata.dist.build-local-artifacts is set, but this is only accepted in workspace.metadata (value is being ignored): {package_manifest_path}");
         }
         if dispatch_releases.is_some() {
-            warn!("package.metadata.dist.dispatch-releases is set, but this is only accepted in workspace.metadata (value is being ignored): {}", package_manifest_path);
+            warn!("package.metadata.dist.dispatch-releases is set, but this is only accepted in workspace.metadata (value is being ignored): {package_manifest_path}");
         }
         if release_branch.is_some() {
-            warn!("package.metadata.dist.release-branch is set, but this is only accepted in workspace.metadata (value is being ignored): {}", package_manifest_path);
+            warn!("package.metadata.dist.release-branch is set, but this is only accepted in workspace.metadata (value is being ignored): {package_manifest_path}");
         }
         if create_release.is_some() {
-            warn!("package.metadata.dist.create-release is set, but this is only accepted in workspace.metadata (value is being ignored): {}", package_manifest_path);
+            warn!("package.metadata.dist.create-release is set, but this is only accepted in workspace.metadata (value is being ignored): {package_manifest_path}");
         }
         if github_releases_repo.is_some() {
-            warn!("package.metadata.dist.github-releases-repo is set, but this is only accepted in workspace.metadata (value is being ignored): {}", package_manifest_path);
+            warn!("package.metadata.dist.github-releases-repo is set, but this is only accepted in workspace.metadata (value is being ignored): {package_manifest_path}");
         }
         if github_releases_submodule_path.is_some() {
-            warn!("package.metadata.dist.github-releases-submodule-path is set, but this is only accepted in workspace.metadata (value is being ignored): {}", package_manifest_path);
+            warn!("package.metadata.dist.github-releases-submodule-path is set, but this is only accepted in workspace.metadata (value is being ignored): {package_manifest_path}");
         }
         // Arguably should be package-local for things like msi installers, but doesn't make sense for CI,
         // so let's not support that yet for its complexity!
         if allow_dirty.is_some() {
-            warn!("package.metadata.dist.allow-dirty is set, but this is only accepted in workspace.metadata (value is being ignored): {}", package_manifest_path);
+            warn!("package.metadata.dist.allow-dirty is set, but this is only accepted in workspace.metadata (value is being ignored): {package_manifest_path}");
         }
         if publish_prereleases.is_some() {
-            warn!("package.metadata.dist.publish-prereleases is set, but this is only accepted in workspace.metadata (value is being ignored): {}", package_manifest_path);
+            warn!("package.metadata.dist.publish-prereleases is set, but this is only accepted in workspace.metadata (value is being ignored): {package_manifest_path}");
         }
         if force_latest.is_some() {
-            warn!("package.metadata.dist.force-stable is set, but this is only accepted in workspace.metadata (value is being ignored): {}", package_manifest_path);
+            warn!("package.metadata.dist.force-stable is set, but this is only accepted in workspace.metadata (value is being ignored): {package_manifest_path}");
         }
         if pr_run_mode.is_some() {
-            warn!("package.metadata.dist.pr-run-mode is set, but this is only accepted in workspace.metadata (value is being ignored): {}", package_manifest_path);
+            warn!("package.metadata.dist.pr-run-mode is set, but this is only accepted in workspace.metadata (value is being ignored): {package_manifest_path}");
         }
         if ssldotcom_windows_sign.is_some() {
-            warn!("package.metadata.dist.ssldotcom-windows-sign is set, but this is only accepted in workspace.metadata (value is being ignored): {}", package_manifest_path);
+            warn!("package.metadata.dist.ssldotcom-windows-sign is set, but this is only accepted in workspace.metadata (value is being ignored): {package_manifest_path}");
         }
         if macos_sign.is_some() {
-            warn!("package.metadata.dist.macos-sign is set, but this is only accepted in workspace.metadata (value is being ignored): {}", package_manifest_path);
+            warn!("package.metadata.dist.macos-sign is set, but this is only accepted in workspace.metadata (value is being ignored): {package_manifest_path}");
         }
         if github_attestations.is_some() {
-            warn!("package.metadata.dist.github-attestations is set, but this is only accepted in workspace.metadata (value is being ignored): {}", package_manifest_path);
+            warn!("package.metadata.dist.github-attestations is set, but this is only accepted in workspace.metadata (value is being ignored): {package_manifest_path}");
         }
         if msvc_crt_static.is_some() {
-            warn!("package.metadata.dist.msvc-crt-static is set, but this is only accepted in workspace.metadata (value is being ignored): {}", package_manifest_path);
+            warn!("package.metadata.dist.msvc-crt-static is set, but this is only accepted in workspace.metadata (value is being ignored): {package_manifest_path}");
         }
         if hosting.is_some() {
-            warn!("package.metadata.dist.hosting is set, but this is only accepted in workspace.metadata (value is being ignored): {}", package_manifest_path);
+            warn!("package.metadata.dist.hosting is set, but this is only accepted in workspace.metadata (value is being ignored): {package_manifest_path}");
         }
         if plan_jobs.is_some() {
-            warn!("package.metadata.dist.plan-jobs is set, but this is only accepted in workspace.metadata (value is being ignored): {}", package_manifest_path);
+            warn!("package.metadata.dist.plan-jobs is set, but this is only accepted in workspace.metadata (value is being ignored): {package_manifest_path}");
         }
         if local_artifacts_jobs.is_some() {
-            warn!("package.metadata.dist.local-artifacts-jobs is set, but this is only accepted in workspace.metadata (value is being ignored): {}", package_manifest_path);
+            warn!("package.metadata.dist.local-artifacts-jobs is set, but this is only accepted in workspace.metadata (value is being ignored): {package_manifest_path}");
         }
         if global_artifacts_jobs.is_some() {
-            warn!("package.metadata.dist.global-artifacts-jobs is set, but this is only accepted in workspace.metadata (value is being ignored): {}", package_manifest_path);
+            warn!("package.metadata.dist.global-artifacts-jobs is set, but this is only accepted in workspace.metadata (value is being ignored): {package_manifest_path}");
         }
         if source_tarball.is_some() {
-            warn!("package.metadata.dist.source-tarball is set, but this is only accepted in workspace.metadata (value is being ignored): {}", package_manifest_path);
+            warn!("package.metadata.dist.source-tarball is set, but this is only accepted in workspace.metadata (value is being ignored): {package_manifest_path}");
         }
         if host_jobs.is_some() {
-            warn!("package.metadata.dist.host-jobs is set, but this is only accepted in workspace.metadata (value is being ignored): {}", package_manifest_path);
+            warn!("package.metadata.dist.host-jobs is set, but this is only accepted in workspace.metadata (value is being ignored): {package_manifest_path}");
         }
         if publish_jobs.is_some() {
-            warn!("package.metadata.dist.publish-jobs is set, but this is only accepted in workspace.metadata (value is being ignored): {}", package_manifest_path);
+            warn!("package.metadata.dist.publish-jobs is set, but this is only accepted in workspace.metadata (value is being ignored): {package_manifest_path}");
         }
         if post_announce_jobs.is_some() {
-            warn!("package.metadata.dist.post-announce-jobs is set, but this is only accepted in workspace.metadata (value is being ignored): {}", package_manifest_path);
+            warn!("package.metadata.dist.post-announce-jobs is set, but this is only accepted in workspace.metadata (value is being ignored): {package_manifest_path}");
         }
         if tag_namespace.is_some() {
-            warn!("package.metadata.dist.tag-namespace is set, but this is only accepted in workspace.metadata (value is being ignored): {}", package_manifest_path);
+            warn!("package.metadata.dist.tag-namespace is set, but this is only accepted in workspace.metadata (value is being ignored): {package_manifest_path}");
         }
         if github_release.is_some() {
-            warn!("package.metadata.dist.github-release is set, but this is only accepted in workspace.metadata (value is being ignored): {}", package_manifest_path);
+            warn!("package.metadata.dist.github-release is set, but this is only accepted in workspace.metadata (value is being ignored): {package_manifest_path}");
         }
         if github_custom_job_permissions.is_some() {
-            warn!("package.metadata.dist.github-custom-job-permissions is set, but this is only accepted in workspace.metadata (value is being ignored): {}", package_manifest_path);
+            warn!("package.metadata.dist.github-custom-job-permissions is set, but this is only accepted in workspace.metadata (value is being ignored): {package_manifest_path}");
         }
         if github_custom_runners.is_some() {
-            warn!("package.metadata.dist.github-custom-runners is set, but this is only accepted in workspace.metadata (value is being ignored): {}", package_manifest_path);
+            warn!("package.metadata.dist.github-custom-runners is set, but this is only accepted in workspace.metadata (value is being ignored): {package_manifest_path}");
         }
         if github_build_setup.is_some() {
-            warn!("package.metadata.dist.github-build-setup is set, but this is only accepted in workspace.metadata (value is being ignored): {}", package_manifest_path);
+            warn!("package.metadata.dist.github-build-setup is set, but this is only accepted in workspace.metadata (value is being ignored): {package_manifest_path}");
         }
 
         // Merge non-global settings

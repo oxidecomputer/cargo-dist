@@ -82,7 +82,7 @@ fn try_extract_changelog_exact(
     changelogs: &parse_changelog::Changelog,
     version: &Version,
 ) -> Option<ChangelogInfo> {
-    let version_string = format!("{}", version);
+    let version_string = format!("{version}");
 
     changelogs
         .get(&*version_string)
@@ -106,7 +106,7 @@ fn try_extract_changelog_normalized(
     }
 
     let stable_version = version.stable_part();
-    let stable_version_string = format!("{}", stable_version);
+    let stable_version_string = format!("{stable_version}");
 
     let release_notes = changelogs.get(&*stable_version_string)?;
 
@@ -116,7 +116,7 @@ fn try_extract_changelog_normalized(
     let (prefix, freeform) = raw_title.split_once(&stable_version_string)?;
 
     // insert prerelease suffix into the title
-    let title = format!("{}{}{}", prefix, version, freeform);
+    let title = format!("{prefix}{version}{freeform}");
 
     Some(ChangelogInfo {
         title,

@@ -151,7 +151,7 @@ fn test_cargo_nonvirtual() {
 
     {
         let package = get_package(&packages, "some-cdylib");
-        assert_eq!(package.name, "some-cdylib", "packages: {:?}", packages);
+        assert_eq!(package.name, "some-cdylib", "packages: {packages:?}");
         assert!(package.binaries.is_empty());
     }
 

@@ -427,7 +427,7 @@ impl GithubCiInfo {
         let rendered = self.generate_github_ci(dist)?;
 
         LocalAsset::write_new_all(&rendered, &ci_file)?;
-        eprintln!("generated Github CI to {}", ci_file);
+        eprintln!("generated Github CI to {ci_file}");
 
         Ok(())
     }

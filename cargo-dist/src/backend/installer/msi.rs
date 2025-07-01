@@ -111,7 +111,7 @@ impl MsiInstallerInfo {
         write_render(license)?;
         write_render(eula)?;
 
-        eprintln!("generated msi definition to {}", file);
+        eprintln!("generated msi definition to {file}");
 
         Ok(())
     }

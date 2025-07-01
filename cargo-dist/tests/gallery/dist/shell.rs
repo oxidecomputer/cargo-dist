@@ -73,7 +73,7 @@ impl AppResult {
 
             assert!(bin_dir.exists(), "bin dir wasn't created");
             for rcfile in rcfiles {
-                assert!(rcfile.exists(), "{} wasn't created", rcfile);
+                assert!(rcfile.exists(), "{rcfile} wasn't created");
             }
             assert!(env_script.exists(), "env script wasn't created");
 

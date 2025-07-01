@@ -128,19 +128,19 @@ fn print_human(out: &mut Term, manifest: &DistManifest) -> Result<(), std::io::E
             for asset in &artifact.assets {
                 if let Some(path) = &asset.path {
                     if let AssetKind::Executable(exe) = &asset.kind {
-                        writeln!(out, "      [bin] {}", path)?;
+                        writeln!(out, "      [bin] {path}")?;
                         if let Some(syms) = &exe.symbols_artifact {
                             writeln!(out, "        (symbols artifact: {syms})")?;
                         }
                     }
                     if let AssetKind::CDynamicLibrary(lib) = &asset.kind {
-                        writeln!(out, "      [cdylib] {}", path)?;
+                        writeln!(out, "      [cdylib] {path}")?;
                         if let Some(syms) = &lib.symbols_artifact {
                             writeln!(out, "        (symbols artifact: {syms})")?;
                         }
                     }
                     if let AssetKind::CStaticLibrary(lib) = &asset.kind {
-                        writeln!(out, "      [cstaticlib] {}", path)?;
+                        writeln!(out, "      [cstaticlib] {path}")?;
                         if let Some(syms) = &lib.symbols_artifact {
                             writeln!(out, "        (symbols artifact: {syms})")?;
                         }
@@ -195,7 +195,7 @@ fn print_human_artifact_path(
         let file = path.file_name().unwrap();
         let parent = path.as_str().strip_suffix(file);
         if let Some(parent) = parent {
-            write!(out, "{}", parent)?;
+            write!(out, "{parent}")?;
             writeln!(out, "{}", out.style().green().apply_to(file))?;
         } else {
             write!(out, "{}", out.style().green().apply_to(path))?;
@@ -248,7 +248,7 @@ fn cmd_print_upload_files_from_manifest(
 
     let mut out = Term::stdout();
     for path in manifest.upload_files {
-        writeln!(out, "{}", path).into_diagnostic()?;
+        writeln!(out, "{path}").into_diagnostic()?;
     }
     Ok(())
 }
@@ -356,10 +356,7 @@ fn cmd_plan(cli: &Cli, _args: &PlanArgs) -> Result<(), miette::Report> {
     if let Some((version, names)) = version_map.first_key_value() {
         if let Some(name) = names.first() {
             let line = format!(
-                "  You can also filter by name and version. For example, to select '{}' you could specify --tag={}-v{}",
-                name,
-                name,
-                version,
+                "  You can also filter by name and version. For example, to select '{name}' you could specify --tag={name}-v{version}",
             );
             writeln!(out, "\n{}", yellow.apply_to(line)).into_diagnostic()?;
         }
