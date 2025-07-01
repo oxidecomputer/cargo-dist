@@ -2,6 +2,10 @@
 
 Nothing Yet!
 
+# Version 1.0.3 (2025-07-02)
+
+- Enable macOS binary signing for `dist` itself.
+
 # Version 1.0.2 (2025-06-19)
 
 ## Fixes
