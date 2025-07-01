@@ -139,13 +139,6 @@ expression: json_schema
       "description": "A distributable artifact that's part of a Release\n\ni.e. a zip or installer",
       "type": "object",
       "properties": {
-        "description": {
-          "description": "A brief description of what this artifact is",
-          "type": [
-            "string",
-            "null"
-          ]
-        },
         "assets": {
           "description": "Assets included in the bundle (like executables and READMEs)",
           "type": "array",
@@ -170,6 +163,13 @@ expression: json_schema
           "additionalProperties": {
             "$ref": "#/$defs/ChecksumValue"
           }
+        },
+        "description": {
+          "description": "A brief description of what this artifact is",
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "install_hint": {
           "description": "A string describing how to install this",
