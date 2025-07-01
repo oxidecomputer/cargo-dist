@@ -278,8 +278,7 @@ fn get_new_dist_metadata(
             let default = true;
             let prompt = format!(
                 r#"update your project to this version of dist?
-    {} => {}"#,
-                desired_version, current_version
+    {desired_version} => {current_version}"#
             );
             let response = if args.yes {
                 default

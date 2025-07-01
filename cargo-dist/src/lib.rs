@@ -578,7 +578,7 @@ fn generate_checksum(checksum: &ChecksumStyle, src_path: &Utf8Path) -> DistResul
     };
     let mut output = String::with_capacity(hash.len() * 2);
     for byte in hash {
-        write!(&mut output, "{:02x}", byte).unwrap();
+        write!(&mut output, "{byte:02x}").unwrap();
     }
     Ok(ChecksumValue::new(output))
 }

@@ -210,7 +210,7 @@ pub fn to_homebrew_license_format(app_license: &str) -> Result<String, ParseErro
                 // Operations are postfix, so we pop off the previous two elements and combine.
                 let second_operand = buffer.pop().expect("Operator missing first operand.");
                 let first_operand = buffer.pop().expect("Operator missing second operand.");
-                let mut combined = format!("{}, {}", first_operand, second_operand);
+                let mut combined = format!("{first_operand}, {second_operand}");
 
                 // If the operations that immediately follow are the same as the current operation,
                 // squash their operands into the same all_of/any_of clause.
@@ -220,7 +220,7 @@ pub fn to_homebrew_license_format(app_license: &str) -> Result<String, ParseErro
                     }
                     let _ = spdx.next();
                     let operand = buffer.pop().expect("Operator missing first operand.");
-                    combined = format!("{}, {}", operand, combined);
+                    combined = format!("{operand}, {combined}");
                 }
 
                 // Use corresponding homebrew DSL keyword and square bracket the list of licenses.

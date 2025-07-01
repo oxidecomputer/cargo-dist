@@ -531,7 +531,7 @@ impl TomlLayer {
     // However, for the v0->v1 migration, I'm going for reproducing behavior
     // over fixing bugs, so I'm keeping it this way for now. -@duckinator
     fn merge_warn(name: &str, package_manifest_path: &Utf8Path) {
-        warn!("dist.{} is set, but this is only accepted in workspace.metadata (value is being ignored): {}", name, package_manifest_path);
+        warn!("dist.{name} is set, but this is only accepted in workspace.metadata (value is being ignored): {package_manifest_path}");
     }
 
     /// Merge a workspace config into a package config (self)

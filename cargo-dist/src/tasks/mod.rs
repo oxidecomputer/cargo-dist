@@ -1598,7 +1598,7 @@ impl<'pkg_graph> DistGraphBuilder<'pkg_graph> {
             .map_or("omnibor".to_string(), |e| format!("{e}.omnibor"));
         let dest_path = src_path.with_extension(extension);
 
-        let new_id = format!("{}.omnibor", id);
+        let new_id = format!("{id}.omnibor");
 
         Artifact {
             id: ArtifactId::new(new_id),
@@ -2081,7 +2081,7 @@ impl<'pkg_graph> DistGraphBuilder<'pkg_graph> {
             formula.clone()
         };
 
-        let hint = format!("brew install {}", install_target);
+        let hint = format!("brew install {install_target}");
         let desc = "Install prebuilt binaries via Homebrew".to_owned();
 
         let artifacts = release
@@ -2316,7 +2316,7 @@ impl<'pkg_graph> DistGraphBuilder<'pkg_graph> {
                 });
             }
 
-            format!("{scope}/{}", app_name)
+            format!("{scope}/{app_name}")
         } else {
             app_name.clone()
         };
@@ -2760,7 +2760,7 @@ impl<'pkg_graph> DistGraphBuilder<'pkg_graph> {
                 ArtifactKind::OmniborArtifactId(src) => {
                     let src_path = src.src_path.clone();
                     let old_extension = src_path.extension().unwrap_or("");
-                    let dest_path = src_path.with_extension(format!("{}.omnibor", old_extension));
+                    let dest_path = src_path.with_extension(format!("{old_extension}.omnibor"));
 
                     build_steps.push(BuildStep::OmniborArtifactId(OmniborArtifactIdImpl {
                         src_path,
@@ -3245,7 +3245,7 @@ fn find_cargo_subcommand(name: &str, arg: &str, test_flag: &str) -> Option<Tool>
     let string_output = String::from_utf8(output.stdout).ok()?;
     let version = string_output.lines().next()?;
     Some(Tool {
-        cmd: format!("{} {}", name, arg),
+        cmd: format!("{name} {arg}"),
         version: version.to_owned(),
     })
 }

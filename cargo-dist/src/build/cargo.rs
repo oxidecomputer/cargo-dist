@@ -245,7 +245,7 @@ pub fn make_build_cargo_target_command(
         }
         CargoTargetPackages::Package(package) => {
             command.arg("--package").arg(package);
-            eprintln!(" --package={})", package);
+            eprintln!(" --package={package})");
         }
     }
 

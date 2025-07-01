@@ -223,7 +223,7 @@ pub fn build_generic_target(
     )?;
 
     if !result.success() {
-        eprintln!("Build exited non-zero: {}", result);
+        eprintln!("Build exited non-zero: {result}");
     }
 
     let mut expected = BuildExpectations::new(dist_graph, &target.expected_binaries);
@@ -253,7 +253,7 @@ pub fn run_extra_artifacts_build(dist: &DistGraph, build: &ExtraBuildStep) -> Di
     let result = run_build(dist, &build.build_command, &build.working_dir, None)?;
 
     if !result.success() {
-        eprintln!("Build exited non-zero: {}", result);
+        eprintln!("Build exited non-zero: {result}");
     }
 
     // Check that we got everything we expected, and copy into the distribution path

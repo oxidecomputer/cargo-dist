@@ -13,8 +13,8 @@ use url::Url;
 
 fn github_api(app_name: &str) -> AxoupdateResult<String> {
     let formatted_app_name = app_name_to_env_var(app_name);
-    let ghe_env_var = format!("{}_INSTALLER_GHE_BASE_URL", formatted_app_name);
-    let github_env_var = format!("{}_INSTALLER_GITHUB_BASE_URL", formatted_app_name);
+    let ghe_env_var = format!("{formatted_app_name}_INSTALLER_GHE_BASE_URL");
+    let github_env_var = format!("{formatted_app_name}_INSTALLER_GITHUB_BASE_URL");
 
     if env::var(&ghe_env_var).is_ok() && env::var(&github_env_var).is_ok() {
         return Err(AxoupdateError::MultipleGitHubAPIs {
