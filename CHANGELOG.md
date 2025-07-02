@@ -2,10 +2,17 @@
 
 Nothing Yet!
 
+# Version 1.0.4 (2025-07-02)
+
+- Build dist with v1.0.3 for signed and notarized macOS binaries.
+
 # Version 1.0.3 (2025-07-02)
 
-- Fix macOS binary signing not triggering despite being enabled.
 - Submit codesigned macOS binaries to Apple for notarization.
+
+## Fixes
+
+- Fix macOS binary signing not triggering despite being enabled.
 
 # Version 1.0.2 (2025-06-19)
 
