@@ -2,6 +2,10 @@
 
 Nothing Yet!
 
+# Version 1.0.5
+
+- Enable homebrew installer.
+
 # Version 1.0.4 (2025-07-02)
 
 - Build dist with v1.0.3 for signed and notarized macOS binaries.

@@ -31,6 +31,7 @@ stdout:
         "dist-manifest-schema.json",
         "dist-installer.sh",
         "dist-installer.ps1",
+        "dist.rb",
         "dist-npm-package.tar.gz",
         "sha256.sum",
         "dist-aarch64-apple-darwin.tar.xz",
@@ -467,6 +468,23 @@ stdout:
       "target_triples": [
         "x86_64-unknown-linux-musl"
       ]
+    },
+    "dist.rb": {
+      "name": "dist.rb",
+      "kind": "installer",
+      "target_triples": [
+        "aarch64-apple-darwin",
+        "aarch64-unknown-linux-gnu",
+        "aarch64-unknown-linux-musl-dynamic",
+        "aarch64-unknown-linux-musl-static",
+        "x86_64-apple-darwin",
+        "x86_64-pc-windows-gnu",
+        "x86_64-unknown-linux-gnu",
+        "x86_64-unknown-linux-musl-dynamic",
+        "x86_64-unknown-linux-musl-static"
+      ],
+      "install_hint": "brew install oxidecomputer/tap/dist",
+      "description": "Install prebuilt binaries via Homebrew"
     },
     "sha256.sum": {
       "name": "sha256.sum",
