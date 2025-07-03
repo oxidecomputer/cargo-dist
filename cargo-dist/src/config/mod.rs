@@ -44,6 +44,66 @@ pub enum GithubPermission {
     Admin,
 }
 
+/// Config for generating shell completions
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, PartialOrd, Ord, Eq)]
+#[serde(rename_all = "kebab-case")]
+pub struct CompletionConfig {
+    /// The method used to trigger shell completions.
+    pub trigger: CompletionTrigger,
+    /// The shells completion should be generated for.
+    pub shells: Vec<Shell>,
+}
+
+/// The method used to trigger shell completions
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, PartialOrd, Ord, Eq)]
+#[serde(rename_all = "kebab-case")]
+pub enum CompletionTrigger {
+    /// Clap completions enabled via the environment, e.g. `COMPLETE=bash foo`.
+    ClapEnv,
+    /// The name of the subcommand to generate shell completions and the parameter format it uses.
+    Subcommand {
+        /// The name of the completion subcommand.
+        name: String,
+        /// The format of the shell-type parameter of the subcommand.
+        format: ParamFormat,
+    },
+}
+
+/// The format of the parameter that specifies the shell type to the completion subcommand
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, PartialOrd, Ord, Eq)]
+#[serde(rename_all = "kebab-case")]
+pub enum ParamFormat {
+    /// Arg, e.g. `foo completions bash`.
+    Arg,
+    /// Flag, e.g. `foo completions --bash`.
+    Flag,
+}
+
+/// The type of shells that completions may be generated for
+#[derive(Debug, Copy, Clone, Serialize, Deserialize, PartialEq, PartialOrd, Ord, Eq)]
+#[serde(rename_all = "kebab-case")]
+pub enum Shell {
+    /// Bash
+    Bash,
+    /// Fish
+    Fish,
+    /// Powershell
+    Pwsh,
+    /// Zsh
+    Zsh,
+}
+
+impl std::fmt::Display for Shell {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Bash => write!(f, "bash"),
+            Self::Fish => write!(f, "fish"),
+            Self::Pwsh => write!(f, "pwsh"),
+            Self::Zsh => write!(f, "zsh"),
+        }
+    }
+}
+
 /// Global config for commands
 #[derive(Debug, Clone)]
 pub struct Config {

@@ -490,6 +490,10 @@ pub struct DistMetadata {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub bin_aliases: Option<SortedMap<String, Vec<String>>>,
 
+    /// The command to execute to generate shell completion scripts for a given binary
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub completion_cmds: Option<SortedMap<String, CompletionConfig>>,
+
     /// a prefix to add to the release.yml and tag pattern so that
     /// dist can co-exist with other release workflows in complex workspaces
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -608,6 +612,7 @@ impl DistMetadata {
             github_custom_runners: _,
             github_custom_job_permissions: _,
             bin_aliases: _,
+            completion_cmds: _,
             tag_namespace: _,
             install_updater: _,
             always_use_latest_updater: _,
@@ -710,6 +715,7 @@ impl DistMetadata {
             github_custom_runners,
             github_custom_job_permissions,
             bin_aliases,
+            completion_cmds,
             tag_namespace,
             install_updater,
             always_use_latest_updater,
@@ -893,6 +899,9 @@ impl DistMetadata {
         }
         if bin_aliases.is_none() {
             bin_aliases.clone_from(&workspace_config.bin_aliases);
+        }
+        if completion_cmds.is_none() {
+            completion_cmds.clone_from(&workspace_config.completion_cmds);
         }
         if install_updater.is_none() {
             *install_updater = workspace_config.install_updater;

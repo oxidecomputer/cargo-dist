@@ -263,6 +263,10 @@ pub struct CommonInstallerLayer {
     /// Aliases to install binaries as
     #[serde(skip_serializing_if = "Option::is_none")]
     pub bin_aliases: Option<SortedMap<String, Vec<String>>>,
+
+    /// The command to execute to generate shell completion scripts for a given binary
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub completion_cmds: Option<SortedMap<String, CompletionConfig>>,
 }
 /// inheritable installer fields (final)
 #[derive(Debug, Default, Clone)]
@@ -291,6 +295,9 @@ pub struct CommonInstallerConfig {
     /// Aliases to install binaries as
     pub bin_aliases: SortedMap<String, Vec<String>>,
 
+    /// The command to execute to generate shell completion scripts for a given binary
+    pub completion_cmds: SortedMap<String, CompletionConfig>,
+
     /// Whether to install an updater program alongside the software
     pub install_updater: bool,
 }
@@ -302,6 +309,7 @@ impl CommonInstallerConfig {
             install_success_msg: "everything's installed!".to_owned(),
             install_libraries: Default::default(),
             bin_aliases: Default::default(),
+            completion_cmds: Default::default(),
             install_updater: false,
         }
     }
@@ -315,12 +323,14 @@ impl ApplyLayer for CommonInstallerConfig {
             install_success_msg,
             install_libraries,
             bin_aliases,
+            completion_cmds,
         }: Self::Layer,
     ) {
         self.install_path.apply_val(install_path);
         self.install_success_msg.apply_val(install_success_msg);
         self.install_libraries.apply_val(install_libraries);
         self.bin_aliases.apply_val(bin_aliases);
+        self.completion_cmds.apply_val(completion_cmds);
     }
 }
 impl ApplyLayer for CommonInstallerLayer {
@@ -332,11 +342,13 @@ impl ApplyLayer for CommonInstallerLayer {
             install_success_msg,
             install_libraries,
             bin_aliases,
+            completion_cmds,
         }: Self::Layer,
     ) {
         self.install_path.apply_opt(install_path);
         self.install_success_msg.apply_opt(install_success_msg);
         self.install_libraries.apply_opt(install_libraries);
         self.bin_aliases.apply_opt(bin_aliases);
+        self.completion_cmds.apply_opt(completion_cmds);
     }
 }

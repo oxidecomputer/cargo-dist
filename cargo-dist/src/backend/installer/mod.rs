@@ -11,7 +11,7 @@ use macpkg::PkgInstallerInfo;
 use serde::Serialize;
 
 use crate::{
-    config::{JinjaInstallPathStrategy, LibraryStyle, ZipStyle},
+    config::{CompletionConfig, JinjaInstallPathStrategy, LibraryStyle, ZipStyle},
     platform::{PlatformSupport, RuntimeConditions},
     InstallReceipt, ReleaseIdx,
 };
@@ -85,6 +85,8 @@ pub struct InstallerInfo {
     pub receipt: Option<InstallReceipt>,
     /// Aliases to install binaries under
     pub bin_aliases: BTreeMap<TripleName, BTreeMap<String, Vec<String>>>,
+    /// The command to execute to generate shell completion scripts for a given binary
+    pub completion_cmds: BTreeMap<String, CompletionConfig>,
     /// Whether to install generated C dynamic libraries
     pub install_libraries: Vec<LibraryStyle>,
     /// Platform-specific runtime conditions
