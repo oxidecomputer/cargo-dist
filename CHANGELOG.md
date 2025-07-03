@@ -2,6 +2,10 @@
 
 Nothing Yet!
 
+# Version 1.0.6 (2025-07-03)
+
+- Change committer of Homebrew formulas to the owner of GITHUB_TOKEN.
+
 # Version 1.0.5 (2025-07-02)
 
 - Enable Homebrew installer.
