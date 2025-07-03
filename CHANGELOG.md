@@ -2,9 +2,9 @@
 
 Nothing Yet!
 
-# Version 1.0.5
+# Version 1.0.5 (2025-07-02)
 
-- Enable homebrew installer.
+- Enable Homebrew installer.
 
 # Version 1.0.4 (2025-07-02)
 
