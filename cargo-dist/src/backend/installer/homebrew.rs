@@ -1,5 +1,7 @@
 //! Code for generating formula.rb
 
+use std::collections::BTreeMap;
+
 use axoasset::LocalAsset;
 use dist_schema::{ChecksumValue, DistManifest, HomebrewPackageName};
 use serde::Serialize;
@@ -11,7 +13,7 @@ use spdx::{
 use super::InstallerInfo;
 use crate::{
     backend::templates::TEMPLATE_INSTALLER_RB,
-    config::{ChecksumStyle, LibraryStyle},
+    config::{ChecksumStyle, CompletionTrigger, LibraryStyle, ParamFormat},
     errors::DistResult,
     installer::ExecutableZipFragment,
     tasks::DistGraph,
@@ -92,8 +94,40 @@ pub(crate) fn write_homebrew_formula(
     }
     map_fragments!(fragments = (arm64_linux, x86_64_linux, arm64_macos, x86_64_macos));
 
+    let mut completions = BTreeMap::new();
+    for (bin, cmp) in &info.inner.completion_cmds {
+        let mut shells = "[".to_string();
+        let mut shell_iter = cmp.shells.iter().peekable();
+        while let Some(shell) = shell_iter.next() {
+            shells += &format!(":{shell}");
+            if shell_iter.peek().is_some() {
+                shells.push_str(", ");
+            }
+        }
+        shells.push(']');
+
+        let (subcommand, format) = match cmp.trigger.clone() {
+            CompletionTrigger::ClapEnv => (None, ":clap"),
+            CompletionTrigger::Subcommand { name, format } => match format {
+                ParamFormat::Arg => (Some(name), ":arg"),
+                ParamFormat::Flag => (Some(name), ":flag"),
+            },
+        };
+
+        let completion = match subcommand {
+            Some(cmd) => format!(" \"{cmd}\", shell_parameter_format: {format}, shells: {shells}"),
+            None => format!("shell_parameter_format: {format}, shells: {shells}"),
+        };
+
+        completions.insert(bin.clone(), completion);
+    }
+
     let dest_path = info.inner.dest_path.clone();
-    let inputs = HomebrewTemplateInputs { info, fragments };
+    let inputs = HomebrewTemplateInputs {
+        info,
+        fragments,
+        completions,
+    };
 
     let script = dist
         .templates
@@ -109,6 +143,8 @@ struct HomebrewTemplateInputs {
 
     #[serde(flatten)]
     fragments: HomebrewFragments<HomebrewFragment>,
+
+    completions: BTreeMap<String, String>,
 }
 
 #[derive(Debug, Clone, Serialize)]

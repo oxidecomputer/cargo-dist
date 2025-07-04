@@ -240,6 +240,7 @@ fn get_new_dist_metadata(
             github_custom_runners: None,
             github_custom_job_permissions: None,
             bin_aliases: None,
+            completion_cmds: None,
             tag_namespace: None,
             install_updater: None,
             always_use_latest_updater: None,
@@ -753,6 +754,7 @@ fn apply_dist_to_metadata(metadata: &mut toml_edit::Item, meta: &DistMetadata) {
         github_custom_runners: _,
         github_custom_job_permissions: _,
         bin_aliases: _,
+        completion_cmds: _,
         system_dependencies: _,
         github_build_setup: _,
     } = &meta;

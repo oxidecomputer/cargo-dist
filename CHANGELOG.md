@@ -2,9 +2,26 @@
 
 Nothing Yet!
 
-# Version 1.0.5
+# Version 1.0.6 (2025-07-03)
 
-- Enable homebrew installer.
+- Change committer of Homebrew formulas to the owner of GITHUB_TOKEN.
+- Add `dist.completion-cmds` option. This takes a map of binaries and a corresponding subcommand which can be executed to generate shell completions. Completions for `bash`, `zsh`, and `fish` will be installed. Currently this only used for Homebrew installs.
+
+Example configs:
+
+```toml
+[dist.completion-cmds.mybin]
+trigger = "clap-env"
+shells = ["bash","fish"]
+
+[dist.completion-cmds.otherbin]
+trigger.subcommand = {{ name = "completions", format = "flag" }}
+shells = ["bash","fish","pwsh","zsh"]
+```
+
+# Version 1.0.5 (2025-07-02)
+
+- Enable Homebrew installer.
 
 # Version 1.0.4 (2025-07-02)
 
