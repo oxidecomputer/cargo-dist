@@ -2,7 +2,7 @@
 
 Nothing Yet!
 
-# Version 1.0.6 (2025-07-03)
+# Version 1.0.6 (2025-07-04)
 
 - Change committer of Homebrew formulas to the owner of GITHUB_TOKEN.
 - Add `dist.completion-cmds` option. This takes a map of binaries and a corresponding subcommand which can be executed to generate shell completions. Completions for `bash`, `zsh`, and `fish` will be installed. Currently this only used for Homebrew installs.
