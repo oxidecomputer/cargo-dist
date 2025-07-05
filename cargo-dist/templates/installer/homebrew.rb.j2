@@ -93,8 +93,10 @@ class {{ formula_class }} < Formula
     install_binary_aliases!
 
     {%- for binary, completion_cmd in completions|items %}
-    generate_completions_from_executable(bin/"{{ binary }}",
-                                         {{ completion_cmd }})
+    generate_completions_from_executable(
+      bin/"{{ binary }}",
+      {{ completion_cmd }}
+    )
     {%- endfor %}
 
     # Homebrew will automatically install these, so we don't need to do that

@@ -2,6 +2,10 @@
 
 Nothing Yet!
 
+# Version 1.0.7 (2025-07-04)
+
+- Fix long lines in Homebrew formula.
+
 # Version 1.0.6 (2025-07-04)
 
 - Change committer of Homebrew formulas to the owner of GITHUB_TOKEN.
