@@ -115,8 +115,10 @@ pub(crate) fn write_homebrew_formula(
         };
 
         let completion = match subcommand {
-            Some(cmd) => format!(" \"{cmd}\", shell_parameter_format: {format}, shells: {shells}"),
-            None => format!("shell_parameter_format: {format}, shells: {shells}"),
+            Some(cmd) => format!(
+                "\"{cmd}\",\n      shell_parameter_format: {format},\n      shells: {shells},"
+            ),
+            None => format!("shell_parameter_format: {format},\n      shells: {shells},"),
         };
 
         completions.insert(bin.clone(), completion);

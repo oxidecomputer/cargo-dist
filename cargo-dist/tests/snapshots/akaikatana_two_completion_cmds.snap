@@ -1391,10 +1391,17 @@ class AkaikatanaRepack < Formula
     end
 
     install_binary_aliases!
-    generate_completions_from_executable(bin/"akextract",
-                                          "completions", shell_parameter_format: :flag, shells: [:bash, :fish, :zsh])
-    generate_completions_from_executable(bin/"akmetadata",
-                                         shell_parameter_format: :clap, shells: [:bash, :fish, :pwsh, :zsh])
+    generate_completions_from_executable(
+      bin/"akextract",
+      "completions",
+      shell_parameter_format: :flag,
+      shells: [:bash, :fish, :zsh],
+    )
+    generate_completions_from_executable(
+      bin/"akmetadata",
+      shell_parameter_format: :clap,
+      shells: [:bash, :fish, :pwsh, :zsh],
+    )
 
     # Homebrew will automatically install these, so we don't need to do that
     doc_files = Dir["README.*", "readme.*", "LICENSE", "LICENSE.*", "CHANGELOG.*"]
