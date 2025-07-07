@@ -73,7 +73,7 @@ oro-package-spec = "0.3.34"
 parse-changelog = "0.6.12"
 pathdiff = { version = "0.2.3", features = ["camino"] }
 reqwest = { version = "0.12.22", default-features = false }
-schemars = "1.0.3"
+schemars = "1.0.4"
 self-replace = "1.5.0"
 semver = "1.0.26"
 serde = { version = "1.0.219", features = ["derive"] }
