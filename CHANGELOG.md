@@ -2,6 +2,10 @@
 
 Nothing Yet!
 
+# Version 1.0.8 (2025-07-11)
+
+- Codesign Windows binaries.
+
 # Version 1.0.7 (2025-07-04)
 
 - Fix long lines in Homebrew formula.
