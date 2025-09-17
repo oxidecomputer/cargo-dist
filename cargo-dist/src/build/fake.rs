@@ -40,7 +40,7 @@ fn build_fake_binaries(
     binaries: &[BinaryIdx],
 ) -> DistResult<()> {
     // Shove these in a temp dir inside the dist dir, where it's safe for us to do whatever
-    let tmp = temp_dir::TempDir::new()?;
+    let tmp = tempfile::TempDir::new()?;
     let tempdir =
         Utf8PathBuf::from_path_buf(tmp.path().to_owned()).expect("temp_dir made non-utf8 path!?");
     let mut expectations = BuildExpectations::new_fake(dist, binaries);

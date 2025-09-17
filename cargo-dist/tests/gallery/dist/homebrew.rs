@@ -1,5 +1,7 @@
 use std::{path::PathBuf, process::Output};
 
+use camino::Utf8PathBuf;
+
 use super::*;
 
 impl AppResult {
@@ -32,15 +34,27 @@ impl AppResult {
                 return Ok(());
             };
 
-            // Homebrew fails to guess that this is a formula
-            // file if it's not in a path named Formula,
-            // so we need to put the formula in a temp path
-            // to hint it correctly.
+            let mut tap_directory = brew_repo_path(homebrew).unwrap();
+            tap_directory.push("Library");
+            tap_directory.push("Taps");
+            tap_directory.push("cargo-dist-tests");
+            std::fs::create_dir_all(&tap_directory).map_err(|e| {
+                miette!("failed to create tap parent directory '{tap_directory}': {e}")
+            })?;
+
+            // With https://github.com/Homebrew/brew/issues/18371
+            // Homebrew now refuses to install formula that are not
+            // present in a tap. We need to place the test formula
+            // within the `Taps` directory of the Homebrew repository
+            // for it to be installed.
             // (We could also skip individual lints via
             // --except-cop on the `brew style` CLI, but that's
             // a bit too much of a game of whack a mole.)
-            let temp_root = temp_dir::TempDir::new().unwrap();
-            let formula_temp_path = create_formula_copy(&temp_root, formula_path).unwrap();
+            let temp_root = tempfile::Builder::new()
+                .prefix("homebrew-")
+                .tempdir_in(&tap_directory)
+                .map_err(|e| miette!("failed to create tap temp directory: {e}"))?;
+            let tap_path = create_formula_copy(&temp_root, formula_path).unwrap();
 
             // We perform linting here too because we want to both
             // lint and runtest the `brew style --fix`ed version.
@@ -48,16 +62,16 @@ impl AppResult {
             // snapshots since it doesn't work cross-platform, so
             // doing them both in one place means we don't have to
             // run it twice.
-            let output = brew_style(homebrew, &formula_temp_path)?;
+            let output = brew_style(homebrew, &tap_path)?;
             if !output.status.success() {
                 eprintln!("{}", String::from_utf8_lossy(&output.stdout));
                 return Err(miette!("brew style found issues"));
             }
 
             eprintln!("running brew install...");
-            homebrew.output_checked(|cmd| cmd.arg("install").arg(&formula_temp_path))?;
+            homebrew.output_checked(|cmd| cmd.arg("install").arg(&tap_path))?;
             let prefix_output =
-                homebrew.output_checked(|cmd| cmd.arg("--prefix").arg(&formula_temp_path))?;
+                homebrew.output_checked(|cmd| cmd.arg("--prefix").arg(&tap_path))?;
             let prefix_raw = String::from_utf8(prefix_output.stdout).unwrap();
             let prefix = prefix_raw.strip_suffix('\n').unwrap();
             let bin = Utf8PathBuf::from(&prefix).join("bin");
@@ -67,14 +81,23 @@ impl AppResult {
                 assert!(bin_path.exists(), "bin wasn't created");
             }
 
-            homebrew.output_checked(|cmd| cmd.arg("uninstall").arg(formula_temp_path))?;
+            homebrew.output_checked(|cmd| cmd.arg("uninstall").arg(tap_path))?;
         }
         Ok(())
     }
 }
 
+fn brew_repo_path(homebrew: &CommandInfo) -> Result<Utf8PathBuf> {
+    let output = homebrew.output_checked(|cmd| cmd.arg("--repository"))?;
+
+    let stdout = String::from_utf8(output.stdout)
+        .map_err(|e| miette!("Failed to parse output as UTF-8: {}", e))?;
+
+    Ok(Utf8PathBuf::from(stdout.trim()))
+}
+
 fn create_formula_copy(
-    temp_root: &temp_dir::TempDir,
+    temp_root: &tempfile::TempDir,
     formula_path: &Utf8PathBuf,
 ) -> std::io::Result<PathBuf> {
     let formula_temp_root = temp_root.path().join("Formula");

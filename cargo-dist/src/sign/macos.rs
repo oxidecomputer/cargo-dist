@@ -23,7 +23,7 @@ use axoprocess::Cmd;
 use base64::Engine;
 use camino::{Utf8Path, Utf8PathBuf};
 use dist_schema::TripleNameRef;
-use temp_dir::TempDir;
+use tempfile::TempDir;
 use tracing::warn;
 
 use crate::{create_tmp, DistError, DistResult};

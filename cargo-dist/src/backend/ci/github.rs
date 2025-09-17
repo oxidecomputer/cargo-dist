@@ -1151,7 +1151,7 @@ mod tests {
 
     #[test]
     fn build_setup_can_read() {
-        let tmp = temp_dir::TempDir::new().unwrap();
+        let tmp = tempfile::TempDir::new().unwrap();
         let base = Utf8PathBuf::from_path_buf(tmp.path().to_owned())
             .expect("temp_dir made non-utf8 path!?");
         let cfg = "build-setup.yml".to_string();
@@ -1169,7 +1169,7 @@ mod tests {
 
     #[test]
     fn build_setup_with_if() {
-        let tmp = temp_dir::TempDir::new().unwrap();
+        let tmp = tempfile::TempDir::new().unwrap();
         let base = Utf8PathBuf::from_path_buf(tmp.path().to_owned())
             .expect("temp_dir made non-utf8 path!?");
         let cfg = "build-setup.yml".to_string();
