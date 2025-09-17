@@ -95,7 +95,7 @@ toml_edit = { version = "0.22.27" }
 tracing = { version = "0.1.41", features = ["log"] }
 tracing-subscriber = "0.3.19"
 url = "2.5.6"
-uuid = { version = "1.18.0", features = ["v4"] }
+uuid = { version = "1.18.1", features = ["v4"] }
 walkdir = "2.5.0"
 wiremock = "0.6.4"
 zip = { version = "4.6.1", default-features = false, features = ["deflate"] }
