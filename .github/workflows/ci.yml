@@ -2,6 +2,7 @@
 name: Rust CI
 permissions:
   contents: read
+  checks: write
 
 # Ci should be run on...
 on:
