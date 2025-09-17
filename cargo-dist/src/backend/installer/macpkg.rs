@@ -6,7 +6,7 @@ use axoasset::LocalAsset;
 use axoprocess::Cmd;
 use camino::Utf8PathBuf;
 use serde::Serialize;
-use temp_dir::TempDir;
+use tempfile::TempDir;
 use tracing::info;
 
 use crate::{create_tmp, DistResult};

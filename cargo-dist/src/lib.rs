@@ -33,7 +33,7 @@ use config::{
 use console::Term;
 use dist_schema::{ArtifactId, ChecksumValue, ChecksumValueRef, DistManifest, TripleName};
 use semver::Version;
-use temp_dir::TempDir;
+use tempfile::TempDir;
 use tracing::info;
 
 use errors::*;
