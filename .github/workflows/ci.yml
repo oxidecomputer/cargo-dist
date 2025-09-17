@@ -1,5 +1,7 @@
 # The "Normal" CI for tests and linters and whatnot
 name: Rust CI
+permissions:
+  contents: read
 
 # Ci should be run on...
 on:
