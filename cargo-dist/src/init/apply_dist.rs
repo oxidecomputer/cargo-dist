@@ -1,29 +1,20 @@
-use crate::{platform::MinGlibcVersion, METADATA_DIST};
-use crate::config::{InstallPathStrategy, SystemDependencies};
-use crate::config::v1::{
-    artifacts::archives::ArchiveLayer,
-    artifacts::ArtifactLayer,
-    builds::BuildLayer,
-    ci::CiLayer,
-    hosts::HostLayer,
-    layer::BoolOr,
-    publishers::PublisherLayer,
-    TomlLayer,
-};
 use crate::config::v1::installers::{
     homebrew::HomebrewInstallerLayer, msi::MsiInstallerLayer, npm::NpmInstallerLayer,
-    pkg::PkgInstallerLayer, powershell::PowershellInstallerLayer,
-    shell::ShellInstallerLayer, CommonInstallerLayer, InstallerLayer,
+    pkg::PkgInstallerLayer, powershell::PowershellInstallerLayer, shell::ShellInstallerLayer,
+    CommonInstallerLayer, InstallerLayer,
 };
+use crate::config::v1::{
+    artifacts::archives::ArchiveLayer, artifacts::ArtifactLayer, builds::BuildLayer, ci::CiLayer,
+    hosts::HostLayer, layer::BoolOr, publishers::PublisherLayer, TomlLayer,
+};
+use crate::config::{InstallPathStrategy, SystemDependencies};
+use crate::{platform::MinGlibcVersion, METADATA_DIST};
 use axoasset::toml_edit;
 
 use crate::config::v1::layer::BoolOrOptExt;
 
 /// Update a workspace toml-edit document with the current DistMetadata value
-pub fn apply_dist_to_workspace_toml(
-    workspace_toml: &mut toml_edit::DocumentMut,
-    meta: &TomlLayer,
-) {
+pub fn apply_dist_to_workspace_toml(workspace_toml: &mut toml_edit::DocumentMut, meta: &TomlLayer) {
     let metadata = workspace_toml.as_item_mut();
     apply_dist_to_metadata(metadata, meta);
 }
@@ -787,6 +778,13 @@ fn apply_installers_homebrew(
         "formula",
         "# Customize the Homebrew formula name\n",
         homebrew.formula.clone(),
+    );
+
+    apply_optional_value(
+        homebrew_table,
+        "version_formulas",
+        "# Create version-specific Homebrew formulas\n",
+        *homebrew.version_formulas,
     );
 
     // Finalize the table

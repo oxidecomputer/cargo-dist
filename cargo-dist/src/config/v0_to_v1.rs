@@ -33,6 +33,7 @@ impl DistMetadata {
             install_success_msg,
             tap,
             formula,
+            version_formulas,
             system_dependencies,
             targets,
             include,
@@ -272,6 +273,7 @@ impl DistMetadata {
                         common: CommonInstallerLayer::default(),
                         tap,
                         formula,
+                        version_formulas,
                     })
                 } else {
                     None

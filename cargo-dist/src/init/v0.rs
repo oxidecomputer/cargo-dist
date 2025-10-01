@@ -195,6 +195,7 @@ fn get_new_dist_metadata(
             install_success_msg: None,
             tap: None,
             formula: None,
+            version_formulas: None,
             system_dependencies: None,
             targets: None,
             dist: None,
@@ -698,6 +699,7 @@ fn apply_dist_to_metadata(metadata: &mut toml_edit::Item, meta: &DistMetadata) {
         install_success_msg,
         tap,
         formula,
+        version_formulas,
         targets,
         include,
         auto_includes,
@@ -824,6 +826,13 @@ fn apply_dist_to_metadata(metadata: &mut toml_edit::Item, meta: &DistMetadata) {
         "formula",
         "# Customize the Homebrew formula name\n",
         formula.clone(),
+    );
+
+    apply_optional_value(
+        table,
+        "version_formulas",
+        "# Create version-specific Homebrew formulas\n",
+        *version_formulas,
     );
 
     apply_string_list(
