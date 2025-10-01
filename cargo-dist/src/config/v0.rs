@@ -186,6 +186,9 @@ pub struct DistMetadata {
     pub tap: Option<String>,
     /// Customize the name of the Homebrew formula
     pub formula: Option<String>,
+    /// Create version-specific Homebrew formulas
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub version_formulas: Option<bool>,
 
     /// A set of packages to install before building
     #[serde(rename = "dependencies")]
@@ -571,6 +574,7 @@ impl DistMetadata {
             installers: _,
             install_success_msg: _,
             tap: _,
+            version_formulas: _,
             formula: _,
             system_dependencies: _,
             targets: _,
@@ -673,6 +677,7 @@ impl DistMetadata {
             install_success_msg,
             tap,
             formula,
+            version_formulas,
             system_dependencies,
             targets,
             include,
@@ -890,6 +895,9 @@ impl DistMetadata {
         }
         if formula.is_none() {
             formula.clone_from(&workspace_config.formula);
+        }
+        if version_formulas.is_none() {
+            *version_formulas = workspace_config.version_formulas;
         }
         if system_dependencies.is_none() {
             system_dependencies.clone_from(&workspace_config.system_dependencies);

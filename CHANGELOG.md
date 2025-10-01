@@ -1,6 +1,6 @@
 # Unreleased
 
-Nothing Yet!
+- Add `dist.version-formulas` option. This will create separate Homebrew formulas for major.minor versions of an artifact that is released, in addition to the standard "latest" formula. If semver is not used, each release will get its own formula.
 
 # Version 1.0.8 (2025-07-11)
 

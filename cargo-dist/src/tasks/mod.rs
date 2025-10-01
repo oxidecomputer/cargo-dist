@@ -2205,8 +2205,63 @@ impl<'pkg_graph> DistGraphBuilder<'pkg_graph> {
             is_global: true,
         };
 
+        if config.version_formulas.unwrap_or_default() {
+            let version_artifact = self.homebrew_version_artifact(
+                formula.clone(),
+                &self.inner.dist_dir,
+                installer_artifact.clone(),
+            );
+            self.add_global_artifact(to_release, version_artifact);
+        }
+
         self.add_global_artifact(to_release, installer_artifact);
         Ok(())
+    }
+
+    // Create new versions only for major and minor releases, changes to only patch and metadata
+    // will result in the formula being updated in-place.
+    fn homebrew_version_artifact(
+        &self,
+        formula: String,
+        root_path: &Utf8Path,
+        artifact: Artifact,
+    ) -> Artifact {
+        let ArtifactKind::Installer(InstallerImpl::Homebrew(HomebrewImpl { info, fragments })) =
+            artifact.kind.clone()
+        else {
+            unreachable!();
+        };
+        let inner = info.inner.clone();
+
+        let version = match Version::parse(&info.inner.app_version) {
+            Ok(v) => format!("{}.{}", v.major, v.minor),
+            Err(_) => info.inner.app_version.clone(),
+        };
+
+        // Append version name to install hint, e.g. `brew install org/homebrew-tap/foo@0.2`
+        let versioned_hint = format!("{}@{}", inner.hint, version);
+
+        let version_file_name = format!("{formula}@{version}.rb");
+        let version_file_path = root_path.join(&version_file_name);
+
+        let version_formula = format!("{formula}AT{version}");
+
+        Artifact {
+            id: ArtifactId::new(version_file_name),
+            file_path: version_file_path,
+            kind: ArtifactKind::Installer(InstallerImpl::Homebrew(HomebrewImpl {
+                info: HomebrewInstallerInfo {
+                    formula_class: to_class_case(&version_formula),
+                    inner: InstallerInfo {
+                        hint: versioned_hint,
+                        ..inner
+                    },
+                    ..info
+                },
+                fragments,
+            })),
+            ..artifact
+        }
     }
 
     fn add_powershell_installer(&mut self, to_release: ReleaseIdx) -> DistResult<()> {

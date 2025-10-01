@@ -13,6 +13,8 @@ pub struct HomebrewInstallerLayer {
     pub tap: Option<String>,
     /// Customize the name of the Homebrew formula
     pub formula: Option<String>,
+    /// Create version-specific Homebrew formulas
+    pub version_formulas: Option<bool>,
 }
 /// Options for homebrew installer
 #[derive(Debug, Default, Clone)]
@@ -23,6 +25,8 @@ pub struct HomebrewInstallerConfig {
     pub tap: Option<String>,
     /// Customize the name of the Homebrew formula
     pub formula: Option<String>,
+    /// Create version-specific Homebrew formulas
+    pub version_formulas: Option<bool>,
 }
 
 impl HomebrewInstallerConfig {
@@ -36,6 +40,7 @@ impl HomebrewInstallerConfig {
             common: common.clone(),
             tap: None,
             formula: None,
+            version_formulas: None,
         }
     }
 }
@@ -48,11 +53,13 @@ impl ApplyLayer for HomebrewInstallerConfig {
             common,
             tap,
             formula,
+            version_formulas,
         }: Self::Layer,
     ) {
         self.common.apply_layer(common);
         self.tap.apply_opt(tap);
         self.formula.apply_opt(formula);
+        self.version_formulas.apply_opt(version_formulas);
     }
 }
 impl ApplyLayer for HomebrewInstallerLayer {
@@ -63,11 +70,13 @@ impl ApplyLayer for HomebrewInstallerLayer {
             common,
             tap,
             formula,
+            version_formulas,
         }: Self::Layer,
     ) {
         self.common.apply_layer(common);
         self.tap.apply_opt(tap);
         self.formula.apply_opt(formula);
+        self.version_formulas.apply_opt(version_formulas);
     }
 }
 
