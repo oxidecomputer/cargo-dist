@@ -1,5 +1,9 @@
 # Unreleased
 
+Nothing Yet!
+
+# Version 1.0.11 (2025-10-06)
+
 - Handle multiple `.rb` files in artifacts in Homebrew publishing job.
 
 # Version 1.0.10 (2025-10-06)
