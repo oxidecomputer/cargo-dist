@@ -2,6 +2,10 @@
 
 Nothing Yet!
 
+# Version 1.0.12 (2025-10-06)
+
+- Build dist with v1.0.11.
+
 # Version 1.0.11 (2025-10-06)
 
 - Handle multiple `.rb` files in artifacts in Homebrew publishing job.
