@@ -2,6 +2,10 @@
 
 Nothing Yet!
 
+# Version 1.0.10 (2025-10-06)
+
+- Build dist with v1.0.9 and enable versioned Homebrew formulas.
+
 # Version 1.0.9 (2025-10-01)
 
 - Add `dist.version-formulas` option. This will create separate Homebrew formulas for major.minor versions of an artifact that is released, in addition to the standard "latest" formula. If semver is not used, each release will get its own formula.
