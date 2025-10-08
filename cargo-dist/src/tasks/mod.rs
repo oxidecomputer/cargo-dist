@@ -2248,12 +2248,13 @@ impl<'pkg_graph> DistGraphBuilder<'pkg_graph> {
 
         Artifact {
             id: ArtifactId::new(version_file_name),
-            file_path: version_file_path,
+            file_path: version_file_path.clone(),
             kind: ArtifactKind::Installer(InstallerImpl::Homebrew(HomebrewImpl {
                 info: HomebrewInstallerInfo {
                     formula_class: to_class_case(&version_formula),
                     inner: InstallerInfo {
                         hint: versioned_hint,
+                        dest_path: version_file_path,
                         ..inner
                     },
                     ..info
