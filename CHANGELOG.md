@@ -2,6 +2,10 @@
 
 Nothing Yet!
 
+# Version 1.0.14 (2025-10-08)
+
+- Build dist with v1.0.13.
+
 # Version 1.0.13 (2025-10-08)
 
 - Fix versioned Homebrew formula being written to the wrong path.
