@@ -1,6 +1,6 @@
 # Unreleased
 
-Nothing Yet!
+- Fix versioned Homebrew formula being written to the wrong path.
 
 # Version 1.0.12 (2025-10-06)
 
