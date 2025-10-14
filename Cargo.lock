@@ -725,13 +725,12 @@ dependencies = [
 
 [[package]]
 name = "cargo_metadata"
-version = "0.22.0"
+version = "0.23.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0c3f56c207c76c07652489840ff98687dcf213de178ac0974660d6fefeaf5ec6"
+checksum = "981a6f317983eec002839b90fae7411a85621410ae591a9cab2ecf5cb5744873"
 dependencies = [
  "camino",
  "cargo-platform 0.3.1",
- "cargo-util-schemas",
  "semver",
  "serde",
  "serde_json",
@@ -1624,13 +1623,13 @@ dependencies = [
 
 [[package]]
 name = "guppy"
-version = "0.17.22"
+version = "0.17.23"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "41ae4d3577acdf296abfed57f2f391137b545f445d9a6e3600c0a40815872e31"
+checksum = "93383817a8d78167955d55ea78081f940df5469a02cf40eb4e26e56194fe11cb"
 dependencies = [
  "ahash",
  "camino",
- "cargo_metadata 0.22.0",
+ "cargo_metadata 0.23.0",
  "cfg-if",
  "debug-ignore",
  "fixedbitset 0.5.7",
@@ -3774,9 +3773,9 @@ checksum = "e502f78cdbb8ba4718f566c418c52bc729126ffd16baee5baa718cf25dd5a69a"
 
 [[package]]
 name = "target-spec"
-version = "3.5.2"
+version = "3.5.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b44840fc121ca20db81dadbb66d27ac9133a0d4756d674caa7da088ce89cbf2d"
+checksum = "24cec1f220a33175442521c2bf90e6692a10c69ec1b187d6424a6b0eaa1515cd"
 dependencies = [
  "cfg-expr",
  "guppy-workspace-hack",
