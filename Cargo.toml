@@ -91,7 +91,7 @@ tempfile = "3.23.0"
 thiserror = "2.0.17"
 tokio = { version = "1.47.1", features = ["full"] }
 toml = "0.8.23"
-toml_edit = { version = "0.22.27" }
+toml_edit = { version = "0.23.5" }
 tracing = { version = "0.1.41", features = ["log"] }
 tracing-subscriber = "0.3.20"
 url = "2.5.7"
