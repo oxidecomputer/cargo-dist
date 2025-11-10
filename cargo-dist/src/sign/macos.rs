@@ -241,7 +241,6 @@ impl Codesign {
         ditto_cmd.stdout_to_stderr();
         ditto_cmd.output()?;
 
-        // xcrun notarytool submit --apple-id will@ox1de.com --team-id 4459W66H65 --password rdus-eanr-deij-wbnc --wait dist.zip
         let mut notarize_cmd = Cmd::new("/usr/bin/xcrun", "notarize macOS artifacts");
         notarize_cmd.arg("notarytool");
         notarize_cmd.arg("submit");
