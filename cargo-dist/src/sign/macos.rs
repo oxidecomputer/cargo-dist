@@ -215,6 +215,7 @@ impl Codesign {
         cmd.arg("--keychain").arg(&keychain.path);
         cmd.arg("--timestamp");
         cmd.arg("--options").arg("runtime");
+        cmd.arg("--verbose");
         cmd.arg(file);
         cmd.stdout_to_stderr();
         cmd.output()?;
@@ -251,6 +252,7 @@ impl Codesign {
         notarize_cmd
             .arg("--password")
             .arg(&self.env.notarization_password);
+        notarize_cmd.arg("--verbose");
         notarize_cmd.arg(&zip_path);
         notarize_cmd.stdout_to_stderr();
         notarize_cmd.output()?;
