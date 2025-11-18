@@ -56,7 +56,7 @@ goblin = "0.10.3"
 guppy = "0.17.23"
 homedir = "0.3.6"
 httpmock = "0.8.2"
-image = { version = "0.25.8", default-features = false }
+image = { version = "0.25.9", default-features = false }
 include_dir = "0.7.4"
 insta = { version = "1.43.2", features = ["filters"] }
 itertools = "0.14.0"
