@@ -44,7 +44,7 @@ blake2 = "0.10.6"
 camino = { version = "1.2.1", features = ["serde1"] }
 cargo_metadata = "0.23.0"
 cargo-wix = "0.3.9"
-clap = { version = "4.5.51", features = ["derive"] }
+clap = { version = "4.5.52", features = ["derive"] }
 clap-cargo = { version = "0.18.3" }
 color-backtrace = "0.7.2"
 comfy-table = "7.2.1"
