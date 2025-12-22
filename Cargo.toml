@@ -58,7 +58,7 @@ homedir = "0.3.6"
 httpmock = "0.8.2"
 image = { version = "0.25.9", default-features = false }
 include_dir = "0.7.4"
-insta = { version = "1.44.3", features = ["filters"] }
+insta = { version = "1.45.0", features = ["filters"] }
 itertools = "0.14.0"
 lazy_static = "1.5.0"
 liblzma = "0.4.5"
