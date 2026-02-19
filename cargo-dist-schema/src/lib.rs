@@ -78,7 +78,7 @@ impl TripleNameRef {
     }
 }
 declare_strongly_typed_string! {
-    /// The name of a Github Actions Runner, like `ubuntu-20.04` or `macos-13`
+    /// The name of a Github Actions Runner, like `ubuntu-20.04` or `macos-14`
     pub struct GithubRunner => &GithubRunnerRef;
 
     /// A container image, like `quay.io/pypa/manylinux_2_28_x86_64`

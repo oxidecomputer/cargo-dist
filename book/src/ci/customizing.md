@@ -10,7 +10,7 @@ dist's generated CI configuration can be extended in several ways: it can be con
 
 Sometimes, you may need extra packages from the system package manager to be installed before in the builder before dist begins building your software. dist can do this for you by adding the `dependencies` setting to your dist config. When set, the packages you request will be fetched and installed in the step before `build`. Additionally, on macOS, the `cargo build` process will be wrapped in `brew bundle exec` to ensure that your dependencies can be found no matter where Homebrew placed them.
 
-By default, we run Apple silicon (aarch64) builds for macOS on the `macos-13` runner, which is Intel-based. If your build process needs to link against C libraries from Homebrew using the `dependencies` feature, you will need to switch to an Apple silicon-native runner to ensure that you have access to Apple silicon-native dependencies from Homebrew. You can do this using the [custom runners][custom-runners] feature. Currently, `macos-14` is the oldest GitHub-provided runner for Apple silicon.
+By default, we run Apple silicon (aarch64) builds for macOS on the `macos-14` runner, which is Intel-based. If your build process needs to link against C libraries from Homebrew using the `dependencies` feature, you will need to switch to an Apple silicon-native runner to ensure that you have access to Apple silicon-native dependencies from Homebrew. You can do this using the [custom runners][custom-runners] feature. Currently, `macos-14` is the oldest GitHub-provided runner for Apple silicon.
 
 Sometimes, you may want to make sure your users also have these dependencies available when they install your software. If you use a package manager-based installer, dist has the ability to specify these dependencies. By default, dist will examine your program to try to detect which dependencies it thinks will be necessary. At the moment, [Homebrew][homebrew] is the only supported package manager installer. You can also specify these dependencies manually.
 
@@ -88,8 +88,8 @@ Running `dist init` for your tool will update your GitHub Actions configuration 
 By default, dist uses the following runners:
 
 * Linux (x86_64): `ubuntu-20.04`
-* macOS (x86_64): `macos-13`
-* macOS (Apple Silicon): `macos-13`
+* macOS (x86_64): `macos-14`
+* macOS (Apple Silicon): `macos-14`
 * Windows (x86_64): `windows-2019`
 
 It's possible to configure alternate runners for these jobs, or runners for targets not natively supported by GitHub actions. To do this, use the [`github-custom-runners`][config-github-custom-runners] configuration setting in your dist config. Here's an example which adds support for Linux (aarch64) using runners from [Buildjet](https://buildjet.com/for-github-actions):

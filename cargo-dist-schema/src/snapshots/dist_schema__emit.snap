@@ -957,7 +957,7 @@ expression: json_schema
       }
     },
     "GithubRunner": {
-      "description": "The name of a Github Actions Runner, like `ubuntu-20.04` or `macos-13`",
+      "description": "The name of a Github Actions Runner, like `ubuntu-20.04` or `macos-14`",
       "type": "string"
     },
     "GlibcVersion": {
