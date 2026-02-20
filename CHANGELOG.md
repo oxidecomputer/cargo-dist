@@ -1,6 +1,6 @@
 # Unreleased
 
-Nothing Yet!
+- Update MacOS runner to `macos-14`
 
 # Version 1.0.14 (2025-10-08)
 
