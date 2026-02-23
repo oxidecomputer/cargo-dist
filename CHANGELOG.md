@@ -2,6 +2,10 @@
 
 - Nothing Yet!
 
+# Version 1.0.17 (2026-02-23)
+
+- Revert to v1.0.14 and set custom macOS runners.
+
 # Version 1.0.16 (2026-02-23)
 
 - Build dist with v1.0.15.
