@@ -2,6 +2,10 @@
 
 - Nothing Yet!
 
+# Version 1.0.16 (2026-02-23)
+
+- Build dist with v1.0.15.
+
 # Version 1.0.15 (2026-02-23)
 
 - Update MacOS runner to `macos-14`
