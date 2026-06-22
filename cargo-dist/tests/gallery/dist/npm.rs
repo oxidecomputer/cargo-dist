@@ -115,7 +115,7 @@ fn runtest_pnpm(
     // Have pnpm install/unpack the tarball to a project
     eprintln!("running pnpm install...");
     let parent_package_dir = tempdir.to_owned();
-    install_tarball_package(pnpm, &parent_package_dir, package_tarball_path)?;
+    pnpm_install_tarball_package(pnpm, &parent_package_dir, package_tarball_path)?;
 
     // Run the installed app
     eprintln!("npm exec'ing installed app...");
@@ -171,6 +171,28 @@ fn install_tarball_package(
     npm.output_checked(|cmd| {
         cmd.current_dir(to_project)
             .arg("install")
+            .arg(package_tarball_path)
+    })?;
+    Ok(())
+}
+
+fn pnpm_install_tarball_package(
+    pnpm: &CommandInfo,
+    to_project: &Utf8Path,
+    package_tarball_path: &Utf8Path,
+) -> Result<()> {
+    // Install the npm package to a project (this will automatically create one).
+    //
+    // Since pnpm v10, dependency lifecycle scripts (preinstall/install/postinstall)
+    // are blocked by default and `pnpm install` *fails* with ERR_PNPM_IGNORED_BUILDS
+    // when any are present. Our generated npm package relies on a postinstall script
+    // (`node ./install.js`) to download the actual binary, so we must explicitly opt
+    // in to running build scripts -- otherwise the install fails and, even if it
+    // didn't, the binary wouldn't be fetched for the subsequent `npm exec` check.
+    pnpm.output_checked(|cmd| {
+        cmd.current_dir(to_project)
+            .arg("install")
+            .arg("--dangerously-allow-all-builds")
             .arg(package_tarball_path)
     })?;
     Ok(())
