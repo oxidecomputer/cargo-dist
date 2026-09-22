@@ -235,13 +235,20 @@ where
         repo_url: &str,
         commit_sha: &str,
     ) -> Result<()> {
-        if repo_dir.exists() {
+        if Self::is_repo_root(git, repo_dir)? {
             eprintln!("repo already cloned, updating it...");
             std::env::set_current_dir(repo_dir).into_diagnostic()?;
             git.output_checked(|c| c.arg("remote").arg("set-url").arg("origin").arg(repo_url))?;
             git.output_checked(|c| c.arg("fetch").arg("origin").arg(commit_sha).arg("--tags"))?;
             git.output_checked(|c| c.arg("reset").arg("--hard").arg("FETCH_HEAD"))?;
         } else {
+            if repo_dir.exists() {
+                // rust-cache strips files but keeps dirs under target/, leaving
+                // a .git skeleton -- git would then operate on the enclosing
+                // checkout.
+                eprintln!("{repo_dir} exists but is not a git repo root, removing it...");
+                axoasset::LocalAsset::remove_dir_all(repo_dir)?;
+            }
             eprintln!("fetching {repo_url}");
             axoasset::LocalAsset::create_dir(repo_dir)?;
             std::env::set_current_dir(repo_dir).into_diagnostic()?;
@@ -252,5 +259,27 @@ where
         }
 
         Ok(())
+    }
+
+    /// Returns true if `repo_dir` is the toplevel of its own git repo.
+    fn is_repo_root(git: &CommandInfo, repo_dir: &Utf8Path) -> Result<bool> {
+        if !repo_dir.exists() {
+            return Ok(false);
+        }
+        // rev-parse failing means "not a repo", so use git.output, not
+        // git.output_checked.
+        let output = git.output(|c| {
+            c.arg("-C")
+                .arg(repo_dir)
+                .arg("rev-parse")
+                .arg("--show-toplevel")
+        })?;
+        if !output.status.success() {
+            return Ok(false);
+        }
+        let toplevel = String::from_utf8(output.stdout).into_diagnostic()?;
+        let toplevel = std::fs::canonicalize(toplevel.trim_end()).into_diagnostic()?;
+        let repo_dir = std::fs::canonicalize(repo_dir).into_diagnostic()?;
+        Ok(toplevel == repo_dir)
     }
 }
