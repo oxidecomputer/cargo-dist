@@ -1,5 +1,9 @@
 # Unreleased
 
+- Nothing yet!
+
+# Version 1.0.18 (2026-09-27)
+
 - Building `aarch64-pc-windows-msvc` on a `windows-11-arm` runner no longer fails with "Cross-compilation from x86_64-pc-windows-msvc to aarch64-pc-windows-msvc is not supported". Currently the x86_64 build of cargo-dist is run on ARM64 Windows under emulation.
 
 # Version 1.0.17 (2026-02-23)
