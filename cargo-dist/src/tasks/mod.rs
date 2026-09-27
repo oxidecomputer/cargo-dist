@@ -58,7 +58,9 @@ use axoasset::AxoClient;
 use axoprocess::Cmd;
 use axoproject::{PackageId, PackageIdx, WorkspaceGraph};
 use camino::{Utf8Path, Utf8PathBuf};
-use dist_schema::target_lexicon::{OperatingSystem, Triple};
+use dist_schema::target_lexicon::{
+    Aarch64Architecture, Architecture, Environment, OperatingSystem, Triple,
+};
 use dist_schema::{
     ArtifactId, BuildEnvironment, DistManifest, HomebrewPackageName, SystemId, SystemInfo,
     TripleName, TripleNameRef,
@@ -525,6 +527,19 @@ pub fn build_wrapper_for_cross(
             OperatingSystem::Linux | OperatingSystem::Darwin(_) => {
                 // cargo-xwin is made for that
                 Ok(Some(CargoBuildWrapper::Xwin))
+            }
+            // cargo-dist currently assumes that the *host* platform is the same
+            // as the *build target* platform (i.e., the platform this binary
+            // was built for). That is not true for x86_64 cargo-dist binaries
+            // running on ARM64 Windows under emulation. Work around this for
+            // now by special-casing that scenario.
+            OperatingSystem::Windows
+                if host.architecture == Architecture::X86_64
+                    && host.environment == Environment::Msvc
+                    && target.architecture == Architecture::Aarch64(Aarch64Architecture::Aarch64)
+                    && target.environment == Environment::Msvc =>
+            {
+                Ok(None)
             }
             _ => {
                 Err(DistError::UnsupportedCrossCompile {
@@ -3449,5 +3464,62 @@ fn require_nonempty_installer(release: &Release, config: &CommonInstallerConfig)
         Err(DistError::EmptyInstaller {})
     } else {
         Ok(())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::platform::targets as t;
+
+    fn wrapper_for(
+        host: &TripleNameRef,
+        target: &TripleNameRef,
+    ) -> DistResult<Option<CargoBuildWrapper>> {
+        let host: Triple = host.parse().expect("parsed host triple");
+        let target: Triple = target.parse().expect("parsed target triple");
+        build_wrapper_for_cross(&host, &target)
+    }
+
+    #[test]
+    fn x64_msvc_to_arm64_msvc_needs_no_wrapper() {
+        let (host, target) = (t::TARGET_X64_WINDOWS, t::TARGET_ARM64_WINDOWS);
+        let wrapper = wrapper_for(host, target)
+            .unwrap_or_else(|error| panic!("{host} -> {target} is supported, got {error:?}"));
+        assert_eq!(wrapper, None, "{host} -> {target} needs no wrapper");
+    }
+
+    #[test]
+    fn other_windows_to_windows_cross_compiles_are_unsupported() {
+        let cases = [
+            (t::TARGET_ARM64_WINDOWS, t::TARGET_X64_WINDOWS),
+            (t::TARGET_X86_WINDOWS, t::TARGET_ARM64_WINDOWS),
+            (t::TARGET_X64_WINDOWS, t::TARGET_X86_WINDOWS),
+            (t::TARGET_X64_WINDOWS, t::TARGET_ARM64_MINGW),
+            (t::TARGET_X64_MINGW, t::TARGET_ARM64_WINDOWS),
+        ];
+        for (host, target) in cases {
+            let result = wrapper_for(host, target);
+            let Err(DistError::UnsupportedCrossCompile { .. }) = result else {
+                panic!("{host} -> {target} is unsupported, got {result:?}");
+            };
+        }
+    }
+
+    #[test]
+    fn non_windows_to_windows_uses_xwin() {
+        let cases = [
+            (t::TARGET_X64_LINUX_GNU, t::TARGET_ARM64_WINDOWS),
+            (t::TARGET_ARM64_MAC, t::TARGET_X64_WINDOWS),
+        ];
+        for (host, target) in cases {
+            let wrapper = wrapper_for(host, target)
+                .unwrap_or_else(|error| panic!("{host} -> {target} is supported, got {error:?}"));
+            assert_eq!(
+                wrapper,
+                Some(CargoBuildWrapper::Xwin),
+                "{host} -> {target} uses xwin"
+            );
+        }
     }
 }
