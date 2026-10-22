@@ -1,7 +1,7 @@
 //! Code for generating formula.rb
 
 use std::cmp::Ordering;
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, BTreeSet};
 
 use axoasset::LocalAsset;
 use dist_schema::{ChecksumValue, DistManifest, HomebrewPackageName};
@@ -41,6 +41,10 @@ pub struct HomebrewInstallerInfo {
     pub dependencies: Vec<HomebrewPackageName>,
     /// Whether to install packaged C dynamic libraries
     pub install_libraries: Vec<LibraryStyle>,
+    /// Suffix appended to each installed executable and alias, such as `-1.2`
+    /// for a version-specific formula, so that it doesn't conflict with the
+    /// unversioned formula
+    pub executable_suffix: Option<String>,
 }
 
 /// All homebrew-specific fragments
@@ -64,6 +68,7 @@ pub(crate) fn write_homebrew_formula(
 ) -> DistResult<()> {
     let info = info.clone();
 
+    let suffix = info.executable_suffix.as_deref().unwrap_or_default();
     // Every platform's archive contains executables with the same names, so
     // take them from whichever platform the release builds for.
     let test_executables: Vec<String> = [
@@ -75,8 +80,28 @@ pub(crate) fn write_homebrew_formula(
     .into_iter()
     .flatten()
     .next()
-    .map(|fragment| fragment.executables.clone())
+    .map(|fragment| {
+        fragment
+            .executables
+            .iter()
+            .map(|executable| format!("{executable}{suffix}"))
+            .collect()
+    })
     .unwrap_or_default();
+
+    // Tell users of a version-specific formula which commands to run, since
+    // the names differ from the unversioned formula's.
+    let suffixed_commands: BTreeSet<String> = if info.executable_suffix.is_some() {
+        let aliases = info
+            .inner
+            .bin_aliases
+            .iter()
+            .filter(|(target, _)| !target.is_windows())
+            .flat_map(|(_, aliases)| aliases.values().flatten().cloned());
+        test_executables.iter().cloned().chain(aliases).collect()
+    } else {
+        BTreeSet::new()
+    };
 
     let checksum_key = ChecksumStyle::Sha256.ext();
     let map_fragment = |fragment: ExecutableZipFragment| -> HomebrewFragment {
@@ -145,6 +170,7 @@ pub(crate) fn write_homebrew_formula(
         fragments,
         completions,
         test_executables,
+        suffixed_commands,
     };
 
     let script = dist
@@ -166,6 +192,9 @@ struct HomebrewTemplateInputs {
 
     /// Executables that the formula's `test do` block checks for
     test_executables: Vec<String>,
+
+    /// Suffixed executables and aliases that the formula's caveats list
+    suffixed_commands: BTreeSet<String>,
 }
 
 #[derive(Debug, Clone, Serialize)]

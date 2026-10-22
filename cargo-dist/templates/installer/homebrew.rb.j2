@@ -73,7 +73,9 @@ class {{ formula_class }} < Formula
     {%- macro install_fragment(frag, cond) %}
     {%- if frag %}
     if {{ cond }}
-      {%- if frag.executables %}
+      {%- if frag.executables and executable_suffix %}
+      bin.install {% for binary in frag.executables %}"{{ binary }}" => "{{ binary }}{{ executable_suffix }}"{{ ", " if not loop.last else "" }}{% endfor %}
+      {%- elif frag.executables %}
       bin.install {% for binary in frag.executables %}"{{ binary }}"{{ ", " if not loop.last else "" }}{% endfor %}
       {%- endif %}
       {%- if frag.cdylibs and "cdylib" in install_libraries %}
@@ -107,6 +109,17 @@ class {{ formula_class }} < Formula
     # sample files.
     pkgshare.install(*leftover_contents) unless leftover_contents.empty?
   end
+  {%- if suffixed_commands %}
+
+  def caveats
+    <<~EOS
+      This formula installs its commands with a version suffix:
+      {%- for command in suffixed_commands %}
+        {{ command }}
+      {%- endfor %}
+    EOS
+  end
+  {%- endif %}
   {%- if test_executables %}
 
   test do

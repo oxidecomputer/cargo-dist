@@ -2214,6 +2214,7 @@ impl<'pkg_graph> DistGraphBuilder<'pkg_graph> {
                     dependencies,
                     inner,
                     install_libraries: config.install_libraries.clone(),
+                    executable_suffix: None,
                 },
                 fragments,
             })),
@@ -2261,6 +2262,28 @@ impl<'pkg_graph> DistGraphBuilder<'pkg_graph> {
 
         let version_formula = format!("{formula}AT{version}");
 
+        // Install executables and aliases as e.g. `foo-0.2`, so that they
+        // don't conflict with the unversioned formula's `foo`. Homebrew never
+        // installs the Windows aliases, so leave those alone.
+        let suffix = format!("-{version}");
+        let bin_aliases = inner
+            .bin_aliases
+            .iter()
+            .map(|(target, aliases)| {
+                if target.is_windows() {
+                    return (target.clone(), aliases.clone());
+                }
+                let aliases = aliases
+                    .iter()
+                    .map(|(bin, dests)| {
+                        let dests = dests.iter().map(|dest| format!("{dest}{suffix}")).collect();
+                        (format!("{bin}{suffix}"), dests)
+                    })
+                    .collect();
+                (target.clone(), aliases)
+            })
+            .collect();
+
         Artifact {
             id: ArtifactId::new(version_file_name),
             file_path: version_file_path.clone(),
@@ -2270,8 +2293,14 @@ impl<'pkg_graph> DistGraphBuilder<'pkg_graph> {
                     inner: InstallerInfo {
                         hint: versioned_hint,
                         dest_path: version_file_path,
+                        bin_aliases,
+                        // Generated completions are written for the
+                        // unversioned executable's name, so they would
+                        // conflict with the unversioned formula's.
+                        completion_cmds: Default::default(),
                         ..inner
                     },
+                    executable_suffix: Some(suffix),
                     ..info
                 },
                 fragments,

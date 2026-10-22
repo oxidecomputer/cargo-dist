@@ -1367,6 +1367,55 @@ shells = ["bash","fish","pwsh","zsh"]
 }
 
 #[test]
+fn akaikatana_version_formulas() -> Result<(), miette::Report> {
+    let test_name = _function_name!();
+    let result = AKAIKATANA_REPACK.run_test(|ctx| {
+        let dist_version = ctx.tools.cargo_dist.version().unwrap();
+
+        ctx.patch_cargo_toml(format!(r#"
+[workspace.metadata.dist]
+cargo-dist-version = "{dist_version}"
+rust-toolchain-version = "1.67.1"
+ci = ["github"]
+installers = ["shell", "powershell", "homebrew"]
+tap = "mistydemeo/homebrew-formulae"
+version-formulas = true
+publish-jobs = ["homebrew"]
+targets = ["x86_64-unknown-linux-gnu", "x86_64-apple-darwin", "x86_64-pc-windows-msvc", "aarch64-apple-darwin"]
+
+[workspace.metadata.dist.bin-aliases]
+akextract = ["akextract-link"]
+
+[workspace.metadata.dist.completion-cmds.akextract]
+trigger.subcommand = {{ name = "completions", format = "flag" }}
+shells = ["bash","fish","zsh"]
+
+
+"#
+        ))?;
+
+        // Run generate to make sure stuff is up to date before running other commands
+        let ci_result = ctx.cargo_dist_generate(test_name)?;
+        let ci_snap = ci_result.check_all()?;
+        // Do usual build+plan checks
+        let main_result = ctx.cargo_dist_build_and_plan(test_name)?;
+        let main_snap = main_result.check_all(&ctx, ".cargo/bin/")?;
+        // snapshot all
+        main_snap.join(ci_snap).snap();
+        Ok(())
+    });
+
+    // Actually running the Homebrew installer will fail as there are no completion commands to run
+    // on `akaikatana`.
+    if cfg!(target_os = "macos") && std::env::var("RUIN_MY_COMPUTER_WITH_INSTALLERS").is_ok() {
+        assert!(result.is_err());
+        Ok(())
+    } else {
+        result
+    }
+}
+
+#[test]
 fn install_path_home_subdir_min() -> Result<(), miette::Report> {
     let test_name = _function_name!();
     AXOLOTLSAY.run_test(|ctx| {
