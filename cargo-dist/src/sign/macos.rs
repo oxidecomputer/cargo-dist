@@ -218,7 +218,7 @@ impl Codesign {
         cmd.arg("--verbose");
         cmd.arg(file);
         cmd.stdout_to_stderr();
-        cmd.output()?;
+        cmd.status()?;
 
         Ok(())
     }
@@ -240,7 +240,7 @@ impl Codesign {
         ditto_cmd.arg(file);
         ditto_cmd.arg(&zip_path);
         ditto_cmd.stdout_to_stderr();
-        ditto_cmd.output()?;
+        ditto_cmd.status()?;
 
         let mut notarize_cmd = Cmd::new("/usr/bin/xcrun", "notarize macOS artifacts");
         notarize_cmd.arg("notarytool");
@@ -255,7 +255,7 @@ impl Codesign {
         notarize_cmd.arg("--verbose");
         notarize_cmd.arg(&zip_path);
         notarize_cmd.stdout_to_stderr();
-        notarize_cmd.output()?;
+        notarize_cmd.status()?;
 
         Ok(())
     }

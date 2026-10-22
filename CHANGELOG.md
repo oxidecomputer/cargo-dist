@@ -1,6 +1,6 @@
 # Unreleased
 
-- Nothing yet!
+- Capture stderr when macOS notarization fails.
 
 # Version 1.0.18 (2026-09-27)
 
