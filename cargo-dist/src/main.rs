@@ -11,8 +11,8 @@ use camino::Utf8PathBuf;
 // Import everything from the lib version of ourselves
 use clap::Parser;
 use cli::{
-    Cli, Commands, GenerateMode, HelpMarkdownArgs, HostArgs, ManifestArgs, OutputFormat, PlanArgs,
-    PrintUploadFilesFromManifestArgs,
+    Cli, Commands, CompareVersionsArgs, GenerateMode, HelpMarkdownArgs, HostArgs, ManifestArgs,
+    OutputFormat, PlanArgs, PrintUploadFilesFromManifestArgs,
 };
 use console::Term;
 use dist::{linkage::LinkageDisplay, *};
@@ -61,6 +61,7 @@ fn real_main(cli: &axocli::CliApp<Cli>) -> Result<(), miette::Report> {
         Commands::PrintUploadFilesFromManifest(args) => {
             cmd_print_upload_files_from_manifest(config, args)
         }
+        Commands::CompareVersions(args) => cmd_compare_versions(config, args),
         Commands::Host(args) => cmd_host(config, args),
         Commands::Selfupdate(args) => runtime.block_on(cmd_update(config, args)),
     }
@@ -250,6 +251,27 @@ fn cmd_print_upload_files_from_manifest(
     for path in manifest.upload_files {
         writeln!(out, "{path}").into_diagnostic()?;
     }
+    Ok(())
+}
+
+fn cmd_compare_versions(_cli: &Cli, args: &CompareVersionsArgs) -> Result<(), miette::Report> {
+    use std::cmp::Ordering;
+
+    let result = match backend::installer::homebrew::compare_versions(&args.version, &args.other) {
+        Some(Ordering::Less) => "older",
+        Some(Ordering::Equal) => "equal",
+        Some(Ordering::Greater) => "newer",
+        None => {
+            eprintln!(
+                "Unable to compare {} with {}: both must be valid semver",
+                args.version, args.other
+            );
+            "unknown"
+        }
+    };
+
+    let mut out = Term::stdout();
+    writeln!(out, "{result}").into_diagnostic()?;
     Ok(())
 }
 

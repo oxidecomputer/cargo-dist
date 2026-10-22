@@ -1,6 +1,7 @@
 # Unreleased
 
 - Capture stderr when macOS notarization fails.
+- The Homebrew publish job no longer replaces a formula in the tap with an older version. Previously, with `version-formulas`, a patch release on an older branch also overwrote the unversioned formula.
 
 # Version 1.0.18 (2026-09-27)
 
