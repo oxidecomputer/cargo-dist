@@ -81,6 +81,14 @@ impl AppResult {
                 assert!(bin_path.exists(), "bin wasn't created");
             }
 
+            eprintln!("running brew test...");
+            homebrew.output_checked(|cmd| {
+                cmd.env("HOMEBREW_TESTS", "1")
+                    .env("HOMEBREW_DEVELOPER", "1")
+                    .arg("test")
+                    .arg(&formula_temp_path)
+            })?;
+
             homebrew.output_checked(|cmd| {
                 cmd.env("HOMEBREW_TESTS", "1")
                     .env("HOMEBREW_DEVELOPER", "1")

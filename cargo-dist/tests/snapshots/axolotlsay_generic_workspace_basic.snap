@@ -1400,6 +1400,10 @@ class AxolotlsayJs < Formula
     # sample files.
     pkgshare.install(*leftover_contents) unless leftover_contents.empty?
   end
+
+  test do
+    assert_predicate bin/"axolotlsay-js", :executable?
+  end
 end
 
 ================ axolotlsay-js-installer.ps1 ================
@@ -3355,6 +3359,10 @@ class Axolotlsay < Formula
     # Install any leftover files in pkgshare; these are probably config or
     # sample files.
     pkgshare.install(*leftover_contents) unless leftover_contents.empty?
+  end
+
+  test do
+    assert_predicate bin/"axolotlsay", :executable?
   end
 end
 

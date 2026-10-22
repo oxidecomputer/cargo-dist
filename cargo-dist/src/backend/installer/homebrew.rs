@@ -63,6 +63,20 @@ pub(crate) fn write_homebrew_formula(
 ) -> DistResult<()> {
     let info = info.clone();
 
+    // Every platform's archive contains executables with the same names, so
+    // take them from whichever platform the release builds for.
+    let test_executables: Vec<String> = [
+        &fragments.arm64_linux,
+        &fragments.x86_64_linux,
+        &fragments.arm64_macos,
+        &fragments.x86_64_macos,
+    ]
+    .into_iter()
+    .flatten()
+    .next()
+    .map(|fragment| fragment.executables.clone())
+    .unwrap_or_default();
+
     let checksum_key = ChecksumStyle::Sha256.ext();
     let map_fragment = |fragment: ExecutableZipFragment| -> HomebrewFragment {
         let sha256 = manifest
@@ -129,6 +143,7 @@ pub(crate) fn write_homebrew_formula(
         info,
         fragments,
         completions,
+        test_executables,
     };
 
     let script = dist
@@ -147,6 +162,9 @@ struct HomebrewTemplateInputs {
     fragments: HomebrewFragments<HomebrewFragment>,
 
     completions: BTreeMap<String, String>,
+
+    /// Executables that the formula's `test do` block checks for
+    test_executables: Vec<String>,
 }
 
 #[derive(Debug, Clone, Serialize)]

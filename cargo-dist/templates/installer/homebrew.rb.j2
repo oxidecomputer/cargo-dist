@@ -107,4 +107,12 @@ class {{ formula_class }} < Formula
     # sample files.
     pkgshare.install(*leftover_contents) unless leftover_contents.empty?
   end
+  {%- if test_executables %}
+
+  test do
+    {%- for binary in test_executables %}
+    assert_predicate bin/"{{ binary }}", :executable?
+    {%- endfor %}
+  end
+  {%- endif %}
 end

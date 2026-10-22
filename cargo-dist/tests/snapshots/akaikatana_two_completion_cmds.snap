@@ -1412,6 +1412,12 @@ class AkaikatanaRepack < Formula
     # sample files.
     pkgshare.install(*leftover_contents) unless leftover_contents.empty?
   end
+
+  test do
+    assert_predicate bin/"akextract", :executable?
+    assert_predicate bin/"akmetadata", :executable?
+    assert_predicate bin/"akrepack", :executable?
+  end
 end
 
 ================ akaikatana-repack-installer.ps1 ================

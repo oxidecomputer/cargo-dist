@@ -1470,6 +1470,10 @@ class Axolotlsay < Formula
     # sample files.
     pkgshare.install(*leftover_contents) unless leftover_contents.empty?
   end
+
+  test do
+    assert_predicate bin/"axolotlsay", :executable?
+  end
 end
 
 ================ axolotlsay-installer.ps1 ================
