@@ -1416,6 +1416,56 @@ shells = ["bash","fish","zsh"]
 }
 
 #[test]
+fn axolotlsay_version_formulas_with_libraries() -> Result<(), miette::Report> {
+    AXOLOTLSAY.run_test(|ctx| {
+        let dist_version = ctx.tools.cargo_dist.version().unwrap();
+
+        // Give axolotlsay a library for the formula to install
+        let mut cargo_toml = axoasset::LocalAsset::load_string("Cargo.toml")?;
+        cargo_toml.push_str("\n[lib]\ncrate-type = [\"cdylib\"]\npath = \"src/lib.rs\"\n");
+        ctx.workspace_write_file("Cargo.toml", cargo_toml)?;
+        ctx.workspace_write_file("src/lib.rs", "")?;
+
+        let config = |version_formulas: bool| {
+            format!(
+                r#"
+[workspace.metadata.dist]
+cargo-dist-version = "{dist_version}"
+installers = ["homebrew"]
+tap = "axodotdev/homebrew-packages"
+version-formulas = {version_formulas}
+targets = ["x86_64-unknown-linux-gnu", "aarch64-apple-darwin"]
+ci = ["github"]
+allow-dirty = ["ci"]
+package-libraries = ["cdylib"]
+install-libraries = ["cdylib"]
+
+"#
+            )
+        };
+
+        ctx.patch_cargo_toml(config(true))?;
+        let output = ctx
+            .tools
+            .cargo_dist
+            .output(|cmd| cmd.arg("dist").arg("plan"))?;
+        let stderr = String::from_utf8_lossy(&output.stderr);
+        assert!(!output.status.success(), "dist plan succeeded:\n{stderr}");
+        assert!(
+            stderr.contains("can't create version-specific Homebrew formulas"),
+            "unexpected dist plan error:\n{stderr}"
+        );
+
+        // Without version-specific formulas, installing the library is fine
+        ctx.patch_cargo_toml(config(false))?;
+        ctx.tools
+            .cargo_dist
+            .output_checked(|cmd| cmd.arg("dist").arg("plan"))?;
+        Ok(())
+    })
+}
+
+#[test]
 fn install_path_home_subdir_min() -> Result<(), miette::Report> {
     let test_name = _function_name!();
     AXOLOTLSAY.run_test(|ctx| {

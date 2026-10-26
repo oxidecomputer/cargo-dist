@@ -3,6 +3,7 @@
 - Capture stderr when macOS notarization fails.
 - The Homebrew publish job no longer replaces a formula in the tap with an older version. Previously, with `version-formulas`, a patch release on an older branch also overwrote the unversioned formula.
 - Version-specific Homebrew formulas from `version-formulas` now install each executable and alias with the formula's version as a suffix, such as `app-1.2`, so they no longer conflict with the unversioned formula. The versioned binary will not have shell completions installed.
+- `dist plan` now fails if `version-formulas` is enabled for a Homebrew formula that installs libraries. This prevents the versioned library from overwriting the unversioned one.
 
 # Version 1.0.18 (2026-09-27)
 

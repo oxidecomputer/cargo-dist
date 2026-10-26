@@ -2128,6 +2128,21 @@ impl<'pkg_graph> DistGraphBuilder<'pkg_graph> {
             x86_64_linux: find_fragment(TARGET_X64_LINUX_GNU),
             arm64_linux: find_fragment(TARGET_ARM64_LINUX_GNU),
         };
+        // Matches the conditions under which the formula installs libraries
+        let installs_libraries = [
+            &fragments.x86_64_macos,
+            &fragments.arm64_macos,
+            &fragments.x86_64_linux,
+            &fragments.arm64_linux,
+        ]
+        .into_iter()
+        .flatten()
+        .any(|fragment| {
+            (!fragment.cdylibs.is_empty()
+                && config.install_libraries.contains(&LibraryStyle::CDynamic))
+                || (!fragment.cstaticlibs.is_empty()
+                    && config.install_libraries.contains(&LibraryStyle::CStatic))
+        });
 
         let release = self.release(to_release);
         let app_name = release.app_name.clone();
@@ -2222,6 +2237,13 @@ impl<'pkg_graph> DistGraphBuilder<'pkg_graph> {
         };
 
         if config.version_formulas.unwrap_or_default() {
+            // A version-specific formula would install the same library files
+            // as the unversioned formula, and the two would conflict.
+            if installs_libraries {
+                return Err(DistError::VersionFormulasWithLibraries {
+                    formula: formula.clone(),
+                });
+            }
             let version_artifact = self.homebrew_version_artifact(
                 formula.clone(),
                 &self.inner.dist_dir,
