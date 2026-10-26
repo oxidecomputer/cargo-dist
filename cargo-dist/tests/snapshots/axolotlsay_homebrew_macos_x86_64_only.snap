@@ -545,6 +545,12 @@ jobs:
               brew style --except-cops FormulaAudit/Homepage,FormulaAudit/Desc,FormulaAuditStrict --fix "Formula/${filename}" || true
 
               git add "Formula/${filename}"
+              # The tap may already have this exact formula, for example when
+              # the job is rerun, and `git commit` fails with nothing to commit.
+              if git diff --cached --quiet; then
+                echo "Skipping ${filename}: unchanged"
+                continue
+              fi
               git commit -m "${name} ${version}"
             done
           done
