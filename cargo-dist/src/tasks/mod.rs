@@ -2128,6 +2128,21 @@ impl<'pkg_graph> DistGraphBuilder<'pkg_graph> {
             x86_64_linux: find_fragment(TARGET_X64_LINUX_GNU),
             arm64_linux: find_fragment(TARGET_ARM64_LINUX_GNU),
         };
+        // Matches the conditions under which the formula installs libraries
+        let installs_libraries = [
+            &fragments.x86_64_macos,
+            &fragments.arm64_macos,
+            &fragments.x86_64_linux,
+            &fragments.arm64_linux,
+        ]
+        .into_iter()
+        .flatten()
+        .any(|fragment| {
+            (!fragment.cdylibs.is_empty()
+                && config.install_libraries.contains(&LibraryStyle::CDynamic))
+                || (!fragment.cstaticlibs.is_empty()
+                    && config.install_libraries.contains(&LibraryStyle::CStatic))
+        });
 
         let release = self.release(to_release);
         let app_name = release.app_name.clone();
@@ -2214,6 +2229,7 @@ impl<'pkg_graph> DistGraphBuilder<'pkg_graph> {
                     dependencies,
                     inner,
                     install_libraries: config.install_libraries.clone(),
+                    executable_suffix: None,
                 },
                 fragments,
             })),
@@ -2221,6 +2237,13 @@ impl<'pkg_graph> DistGraphBuilder<'pkg_graph> {
         };
 
         if config.version_formulas.unwrap_or_default() {
+            // A version-specific formula would install the same library files
+            // as the unversioned formula, and the two would conflict.
+            if installs_libraries {
+                return Err(DistError::VersionFormulasWithLibraries {
+                    formula: formula.clone(),
+                });
+            }
             let version_artifact = self.homebrew_version_artifact(
                 formula.clone(),
                 &self.inner.dist_dir,
@@ -2261,6 +2284,28 @@ impl<'pkg_graph> DistGraphBuilder<'pkg_graph> {
 
         let version_formula = format!("{formula}AT{version}");
 
+        // Install executables and aliases as e.g. `foo-0.2`, so that they
+        // don't conflict with the unversioned formula's `foo`. Homebrew never
+        // installs the Windows aliases, so leave those alone.
+        let suffix = format!("-{version}");
+        let bin_aliases = inner
+            .bin_aliases
+            .iter()
+            .map(|(target, aliases)| {
+                if target.is_windows() {
+                    return (target.clone(), aliases.clone());
+                }
+                let aliases = aliases
+                    .iter()
+                    .map(|(bin, dests)| {
+                        let dests = dests.iter().map(|dest| format!("{dest}{suffix}")).collect();
+                        (format!("{bin}{suffix}"), dests)
+                    })
+                    .collect();
+                (target.clone(), aliases)
+            })
+            .collect();
+
         Artifact {
             id: ArtifactId::new(version_file_name),
             file_path: version_file_path.clone(),
@@ -2270,8 +2315,14 @@ impl<'pkg_graph> DistGraphBuilder<'pkg_graph> {
                     inner: InstallerInfo {
                         hint: versioned_hint,
                         dest_path: version_file_path,
+                        bin_aliases,
+                        // Generated completions are written for the
+                        // unversioned executable's name, so they would
+                        // conflict with the unversioned formula's.
+                        completion_cmds: Default::default(),
                         ..inner
                     },
+                    executable_suffix: Some(suffix),
                     ..info
                 },
                 fragments,

@@ -217,6 +217,14 @@ pub enum DistError {
         packages: Vec<camino::Utf8PathBuf>,
     },
 
+    /// version-formulas was enabled for a Homebrew formula that installs libraries
+    #[error("can't create version-specific Homebrew formulas for {formula}, because it installs libraries")]
+    #[diagnostic(help("a version-specific formula would install the same files in lib/ as {formula}, and the two would conflict; disable version-formulas, or remove the library types from install-libraries"))]
+    VersionFormulasWithLibraries {
+        /// name of the unversioned formula
+        formula: String,
+    },
+
     /// packages disagreed on publishers
     #[error("different publisher settings were in your workspace, this is currently unuspported")]
     #[diagnostic(help("these packages disagree:\n{packages:#?}"))]

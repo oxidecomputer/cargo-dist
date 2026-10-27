@@ -1,6 +1,7 @@
 //! Code for generating formula.rb
 
-use std::collections::BTreeMap;
+use std::cmp::Ordering;
+use std::collections::{BTreeMap, BTreeSet};
 
 use axoasset::LocalAsset;
 use dist_schema::{ChecksumValue, DistManifest, HomebrewPackageName};
@@ -40,6 +41,10 @@ pub struct HomebrewInstallerInfo {
     pub dependencies: Vec<HomebrewPackageName>,
     /// Whether to install packaged C dynamic libraries
     pub install_libraries: Vec<LibraryStyle>,
+    /// Suffix appended to each installed executable and alias, such as `-1.2`
+    /// for a version-specific formula, so that it doesn't conflict with the
+    /// unversioned formula
+    pub executable_suffix: Option<String>,
 }
 
 /// All homebrew-specific fragments
@@ -62,6 +67,41 @@ pub(crate) fn write_homebrew_formula(
     manifest: &DistManifest,
 ) -> DistResult<()> {
     let info = info.clone();
+
+    let suffix = info.executable_suffix.as_deref().unwrap_or_default();
+    // Every platform's archive contains executables with the same names, so
+    // take them from whichever platform the release builds for.
+    let test_executables: Vec<String> = [
+        &fragments.arm64_linux,
+        &fragments.x86_64_linux,
+        &fragments.arm64_macos,
+        &fragments.x86_64_macos,
+    ]
+    .into_iter()
+    .flatten()
+    .next()
+    .map(|fragment| {
+        fragment
+            .executables
+            .iter()
+            .map(|executable| format!("{executable}{suffix}"))
+            .collect()
+    })
+    .unwrap_or_default();
+
+    // Tell users of a version-specific formula which commands to run, since
+    // the names differ from the unversioned formula's.
+    let suffixed_commands: BTreeSet<String> = if info.executable_suffix.is_some() {
+        let aliases = info
+            .inner
+            .bin_aliases
+            .iter()
+            .filter(|(target, _)| !target.is_windows())
+            .flat_map(|(_, aliases)| aliases.values().flatten().cloned());
+        test_executables.iter().cloned().chain(aliases).collect()
+    } else {
+        BTreeSet::new()
+    };
 
     let checksum_key = ChecksumStyle::Sha256.ext();
     let map_fragment = |fragment: ExecutableZipFragment| -> HomebrewFragment {
@@ -129,6 +169,8 @@ pub(crate) fn write_homebrew_formula(
         info,
         fragments,
         completions,
+        test_executables,
+        suffixed_commands,
     };
 
     let script = dist
@@ -147,6 +189,12 @@ struct HomebrewTemplateInputs {
     fragments: HomebrewFragments<HomebrewFragment>,
 
     completions: BTreeMap<String, String>,
+
+    /// Executables that the formula's `test do` block checks for
+    test_executables: Vec<String>,
+
+    /// Suffixed executables and aliases that the formula's caveats list
+    suffixed_commands: BTreeSet<String>,
 }
 
 #[derive(Debug, Clone, Serialize)]
@@ -161,6 +209,20 @@ struct HomebrewFragment {
 
     /// homebrew package dependencies
     dependencies: Vec<String>,
+}
+
+/// Compares two versions by semver precedence, ignoring build metadata.
+///
+/// The Homebrew publish job uses this, through `dist compare-versions`, to
+/// avoid replacing a formula in the tap with an older version. Returns `None`
+/// if either version isn't valid semver.
+pub fn compare_versions(version: &str, other: &str) -> Option<Ordering> {
+    let parse = |ver: &str| {
+        let mut ver = semver::Version::parse(ver).ok()?;
+        ver.build = semver::BuildMetadata::EMPTY;
+        Some(ver)
+    };
+    Some(parse(version)?.cmp(&parse(other)?))
 }
 
 /// Converts the provided app name into a Ruby class-compatible
@@ -286,9 +348,11 @@ pub fn to_homebrew_license_format(app_license: &str) -> Result<String, ParseErro
 
 #[cfg(test)]
 mod tests {
+    use std::cmp::Ordering;
+
     use spdx::ParseError;
 
-    use super::{to_class_case, to_homebrew_license_format};
+    use super::{compare_versions, to_class_case, to_homebrew_license_format};
 
     fn run_comparison(in_str: &str, expected: &str) {
         let out_str = to_class_case(in_str);
@@ -475,5 +539,44 @@ mod tests {
     #[test]
     fn spdx_invalid_adjacent_operator() {
         run_malformed_spdx("MIT AND OR Apache-2.0");
+    }
+
+    #[test]
+    fn compare_versions_semver_precedence() {
+        let cases = [
+            ("0.18.1", "0.19.0", Ordering::Less),
+            ("0.19.1", "0.19.0", Ordering::Greater),
+            ("0.9.0", "0.10.0", Ordering::Less),
+            ("1.2.3", "1.2.3", Ordering::Equal),
+            // A pre-release has lower precedence than its release
+            ("1.0.0-rc.1", "1.0.0", Ordering::Less),
+            ("1.0.0", "1.0.0-rc.1", Ordering::Greater),
+            // Pre-release identifiers compare field by field
+            ("1.0.0-alpha", "1.0.0-alpha.1", Ordering::Less),
+            ("1.0.0-alpha.2", "1.0.0-alpha.10", Ordering::Less),
+            ("1.0.0-beta", "1.0.0-rc.1", Ordering::Less),
+            // Numeric identifiers have lower precedence than alphanumeric ones
+            ("1.0.0-1", "1.0.0-alpha", Ordering::Less),
+            // Build metadata doesn't affect precedence
+            ("2.0.0+b1", "2.0.0+b2", Ordering::Equal),
+            (
+                "0.18.1+2026073100.0.0",
+                "0.19.0+2026091500.0.0",
+                Ordering::Less,
+            ),
+        ];
+        for (version, other, expected) in cases {
+            assert_eq!(
+                compare_versions(version, other),
+                Some(expected),
+                "{version} vs {other}"
+            );
+        }
+    }
+
+    #[test]
+    fn compare_versions_not_semver() {
+        assert_eq!(compare_versions("2024.1", "1.0.0"), None);
+        assert_eq!(compare_versions("1.0.0", "v1.0.0"), None);
     }
 }

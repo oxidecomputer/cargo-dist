@@ -102,6 +102,7 @@ pub struct AppResult {
     bins: Vec<String>,
     shell_installer_path: Option<Utf8PathBuf>,
     homebrew_installer_path: Option<Utf8PathBuf>,
+    homebrew_versioned_installer_path: Option<Utf8PathBuf>,
     homebrew_skip_install: bool,
     powershell_installer_path: Option<Utf8PathBuf>,
     npm_installer_package_path: Option<Utf8PathBuf>,
@@ -254,6 +255,7 @@ impl<'a> TestContext<'a, Tools> {
             let brew_app_name = self.options.homebrew_package_name(&app_name);
             let homebrew_skip_install = self.options.homebrew_skip_install(&app_name);
             let homebrew_installer = Utf8PathBuf::from(format!("{target_dir}/{brew_app_name}.rb"));
+            let homebrew_versioned_installer = find_versioned_formula(&target_dir, brew_app_name);
 
             let npm_installer =
                 Utf8PathBuf::from(format!("{target_dir}/{app_name}-npm-package.tar.gz"));
@@ -266,6 +268,7 @@ impl<'a> TestContext<'a, Tools> {
                 shell_installer_path: sh_installer.exists().then_some(sh_installer),
                 powershell_installer_path: ps_installer.exists().then_some(ps_installer),
                 homebrew_installer_path: homebrew_installer.exists().then_some(homebrew_installer),
+                homebrew_versioned_installer_path: homebrew_versioned_installer,
                 homebrew_skip_install,
                 npm_installer_package_path: npm_installer.exists().then_some(npm_installer),
                 unified_checksum_path: unified_checksum_path
@@ -345,6 +348,19 @@ impl<'a> TestContext<'a, Tools> {
         eprintln!("wrote file to {}", dest_path.as_ref());
         Ok(())
     }
+}
+
+/// Finds the version-specific formula (`name@X.Y.rb`) that `version-formulas` creates
+fn find_versioned_formula(dir: &Utf8Path, formula: &str) -> Option<Utf8PathBuf> {
+    let prefix = format!("{formula}@");
+    dir.read_dir_utf8()
+        .ok()?
+        .filter_map(|entry| entry.ok())
+        .map(|entry| entry.into_path())
+        .find(|path| {
+            path.file_name()
+                .is_some_and(|name| name.starts_with(&prefix) && name.ends_with(".rb"))
+        })
 }
 
 impl DistResult {

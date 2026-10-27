@@ -32,6 +32,14 @@ impl DistResult {
             )?;
             append_snapshot_file(
                 &mut snapshots,
+                app.homebrew_versioned_installer_path
+                    .as_deref()
+                    .and_then(|p| p.file_name())
+                    .unwrap_or_default(),
+                app.homebrew_versioned_installer_path.as_deref(),
+            )?;
+            append_snapshot_file(
+                &mut snapshots,
                 app.powershell_installer_path
                     .as_deref()
                     .and_then(|p| p.file_name())

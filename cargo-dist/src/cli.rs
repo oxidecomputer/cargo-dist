@@ -117,6 +117,12 @@ pub enum Commands {
     #[clap(hide = true)]
     PrintUploadFilesFromManifest(PrintUploadFilesFromManifestArgs),
 
+    /// Print whether a version is older, equal or newer than another, by semver precedence
+    /// (used by the Homebrew publish job)
+    #[clap(disable_version_flag = true)]
+    #[clap(hide = true)]
+    CompareVersions(CompareVersionsArgs),
+
     /// Setup or update dist
     ///
     /// This will interactively guide you through the process of selecting configuration options
@@ -454,6 +460,14 @@ pub struct PrintUploadFilesFromManifestArgs {
     /// The manifest to print upload files from
     #[clap(long)]
     pub manifest: String,
+}
+
+#[derive(Args, Clone, Debug)]
+pub struct CompareVersionsArgs {
+    /// The version to compare
+    pub version: String,
+    /// The version to compare it with
+    pub other: String,
 }
 
 #[derive(Args, Clone, Debug)]
