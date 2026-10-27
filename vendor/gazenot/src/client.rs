@@ -245,25 +245,22 @@ impl Gazenot {
     ) -> Result<Self> {
         const DESC: &str = "create http client for axodotdev hosting (abyss)";
 
-        let default_api_server;
-        let default_hosting_server;
-        let env_api_server;
-        let env_hosting_server;
-        match deployment {
-            Deployment::Production => {
-                env_api_server = "GAZENOT_API_SERVER";
-                env_hosting_server = "GAZENOT_HOSTING_SERVER";
-                default_api_server = "releases.axo.dev";
-                default_hosting_server = "artifacts.axodotdev.host";
-            }
-            Deployment::Staging => {
-                env_api_server = "GAZENOT_STAGING_API_SERVER";
-                env_hosting_server = "GAZENOT_STAGING_HOSTING_SERVER";
-                default_api_server = "staging-axo-abyss.fly.dev";
-                // same hosting server, staging affects the url schema
-                default_hosting_server = "artifacts.axodotdev.host";
-            }
-        }
+        let (env_api_server, env_hosting_server, default_api_server, default_hosting_server) =
+            match deployment {
+                Deployment::Production => (
+                    "GAZENOT_API_SERVER",
+                    "GAZENOT_HOSTING_SERVER",
+                    "releases.axo.dev",
+                    "artifacts.axodotdev.host",
+                ),
+                Deployment::Staging => (
+                    "GAZENOT_STAGING_API_SERVER",
+                    "GAZENOT_STAGING_HOSTING_SERVER",
+                    "staging-axo-abyss.fly.dev",
+                    // same hosting server, staging affects the url schema
+                    "artifacts.axodotdev.host",
+                ),
+            };
 
         // Order of preference:
         // 1. specified via args
@@ -770,7 +767,7 @@ impl Gazenot {
 }
 
 impl GazenotInner {
-    async fn client(&self) -> (SemaphorePermit, &Client) {
+    async fn client(&self) -> (SemaphorePermit<'_>, &Client) {
         let permit = self
             ._semaphore
             .acquire()

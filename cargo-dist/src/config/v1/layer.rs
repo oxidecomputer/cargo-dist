@@ -114,9 +114,7 @@ where
             }
             Some(BoolOr::Bool(true)) => {
                 // Enable if self was previously set to None
-                if self.is_none() {
-                    *self = Some(T::default());
-                }
+                self.get_or_insert_with(T::default);
             }
             None => {}
         }

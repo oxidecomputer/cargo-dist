@@ -328,21 +328,9 @@ fn add_manifest_artifact(
     // Sort the assets by name to make things extra stable
     assets.sort_by(|k1, k2| k1.name.cmp(&k2.name));
 
-    let install_hint;
-    let description;
-    let kind;
-
-    match &artifact.kind {
-        ArtifactKind::ExecutableZip(_) => {
-            install_hint = None;
-            description = None;
-            kind = dist_schema::ArtifactKind::ExecutableZip;
-        }
-        ArtifactKind::Symbols(_) => {
-            install_hint = None;
-            description = None;
-            kind = dist_schema::ArtifactKind::Symbols;
-        }
+    let (install_hint, description, kind) = match &artifact.kind {
+        ArtifactKind::ExecutableZip(_) => (None, None, dist_schema::ArtifactKind::ExecutableZip),
+        ArtifactKind::Symbols(_) => (None, None, dist_schema::ArtifactKind::Symbols),
         ArtifactKind::Installer(
             InstallerImpl::Powershell(info)
             | InstallerImpl::Shell(info)
@@ -351,55 +339,31 @@ fn add_manifest_artifact(
                 ..
             })
             | InstallerImpl::Npm(NpmInstallerInfo { inner: info, .. }),
-        ) => {
-            install_hint = Some(info.hint.clone());
-            description = Some(info.desc.clone());
-            kind = dist_schema::ArtifactKind::Installer;
-        }
-        ArtifactKind::Installer(InstallerImpl::Msi(..)) => {
-            install_hint = None;
-            description = Some("install via msi".to_owned());
-            kind = dist_schema::ArtifactKind::Installer;
-        }
-        ArtifactKind::Installer(InstallerImpl::Pkg(..)) => {
-            install_hint = None;
-            description = Some("install via pkg".to_owned());
-            kind = dist_schema::ArtifactKind::Installer;
-        }
-        ArtifactKind::Checksum(_) => {
-            install_hint = None;
-            description = None;
-            kind = dist_schema::ArtifactKind::Checksum;
-        }
+        ) => (
+            Some(info.hint.clone()),
+            Some(info.desc.clone()),
+            dist_schema::ArtifactKind::Installer,
+        ),
+        ArtifactKind::Installer(InstallerImpl::Msi(..)) => (
+            None,
+            Some("install via msi".to_owned()),
+            dist_schema::ArtifactKind::Installer,
+        ),
+        ArtifactKind::Installer(InstallerImpl::Pkg(..)) => (
+            None,
+            Some("install via pkg".to_owned()),
+            dist_schema::ArtifactKind::Installer,
+        ),
+        ArtifactKind::Checksum(_) => (None, None, dist_schema::ArtifactKind::Checksum),
         ArtifactKind::UnifiedChecksum(_) => {
-            install_hint = None;
-            description = None;
-            kind = dist_schema::ArtifactKind::UnifiedChecksum;
+            (None, None, dist_schema::ArtifactKind::UnifiedChecksum)
         }
-        ArtifactKind::SourceTarball(_) => {
-            install_hint = None;
-            description = None;
-            kind = dist_schema::ArtifactKind::SourceTarball;
-        }
-        ArtifactKind::ExtraArtifact(_) => {
-            install_hint = None;
-            description = None;
-            kind = dist_schema::ArtifactKind::ExtraArtifact;
-        }
-        ArtifactKind::Updater(_) => {
-            install_hint = None;
-            description = None;
-            kind = dist_schema::ArtifactKind::Updater;
-        }
-        ArtifactKind::SBOM(_) => {
-            install_hint = None;
-            description = None;
-            kind = dist_schema::ArtifactKind::SBOM;
-        }
+        ArtifactKind::SourceTarball(_) => (None, None, dist_schema::ArtifactKind::SourceTarball),
+        ArtifactKind::ExtraArtifact(_) => (None, None, dist_schema::ArtifactKind::ExtraArtifact),
+        ArtifactKind::Updater(_) => (None, None, dist_schema::ArtifactKind::Updater),
+        ArtifactKind::SBOM(_) => (None, None, dist_schema::ArtifactKind::SBOM),
         ArtifactKind::OmniborArtifactId(_) => {
-            install_hint = None;
-            description = None;
-            kind = dist_schema::ArtifactKind::OmniborArtifactId;
+            (None, None, dist_schema::ArtifactKind::OmniborArtifactId)
         }
     };
 

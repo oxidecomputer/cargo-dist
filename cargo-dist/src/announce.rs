@@ -924,8 +924,10 @@ pub fn announcement_github(manifest: &mut DistManifest) {
         other_artifacts.sort_by_cached_key(|a| sortable_triples(&a.target_triples));
 
         let download_url = release.artifact_download_url();
-        if !other_artifacts.is_empty() && download_url.is_some() {
-            let download_url = download_url.as_ref().unwrap();
+        if let Some(download_url) = download_url
+            .as_ref()
+            .filter(|_| !other_artifacts.is_empty())
+        {
             writeln!(gh_body, "## Download {heading_suffix}\n",).unwrap();
             gh_body.push_str("|  File  | Platform | Checksum |\n");
             gh_body.push_str("|--------|----------|----------|\n");
