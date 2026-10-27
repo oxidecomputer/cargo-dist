@@ -1419,27 +1419,18 @@ impl<'pkg_graph> DistGraphBuilder<'pkg_graph> {
                 };
 
                 let target_is_windows = target.is_windows();
-                let platform_exe_ext;
-                let platform_lib_prefix;
-                if target_is_windows {
-                    platform_exe_ext = ".exe";
-                    platform_lib_prefix = "";
+                let (platform_exe_ext, platform_lib_prefix) = if target_is_windows {
+                    (".exe", "")
                 } else {
-                    platform_exe_ext = "";
-                    platform_lib_prefix = "lib";
+                    ("", "lib")
                 };
 
-                let platform_lib_ext;
-                let platform_staticlib_ext;
-                if target_is_windows {
-                    platform_lib_ext = ".dll";
-                    platform_staticlib_ext = ".lib";
+                let (platform_lib_ext, platform_staticlib_ext) = if target_is_windows {
+                    (".dll", ".lib")
                 } else if target.is_linux() {
-                    platform_lib_ext = ".so";
-                    platform_staticlib_ext = ".a";
+                    (".so", ".a")
                 } else if target.is_darwin() {
-                    platform_lib_ext = ".dylib";
-                    platform_staticlib_ext = ".a";
+                    (".dylib", ".a")
                 } else {
                     return Err(DistError::UnrecognizedTarget { target });
                 };
@@ -2578,7 +2569,7 @@ impl<'pkg_graph> DistGraphBuilder<'pkg_graph> {
                             artifact_name,
                             spec1: existing_spec.clone(),
                             spec2: binary.pkg_spec.clone(),
-                        })?;
+                        });
                     }
                 } else {
                     package_info = Some((binary.pkg_spec.clone(), binary.pkg_idx));
@@ -2685,7 +2676,7 @@ impl<'pkg_graph> DistGraphBuilder<'pkg_graph> {
                             artifact_name,
                             spec1: existing_spec.clone(),
                             spec2: binary.pkg_spec.clone(),
-                        })?;
+                        });
                     }
                 } else {
                     package_info = Some((binary.pkg_spec.clone(), binary.pkg_idx));
