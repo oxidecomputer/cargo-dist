@@ -7,6 +7,10 @@ license = "MIT OR Apache-2.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+# Vendored crates keep their own versions, so `cargo release` skips them.
+[package.metadata.release]
+release = false
+
 [dependencies]
 backtrace = { workspace = true }
 backtrace-ext = { workspace = true }

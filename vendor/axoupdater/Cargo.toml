@@ -9,6 +9,10 @@ readme = "README.md"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+# Vendored crates keep their own versions, so `cargo release` skips them.
+[package.metadata.release]
+release = false
+
 [features]
 default = ["axo_releases", "github_releases"]
 axo_releases = ["gazenot"]

@@ -41,3 +41,41 @@ review any changed snapshots.
 The test suite cannot be run in parallel. Using an alternative test runner like
 `nextest` will cause unexpected behavior as tests will override each other's
 state.
+
+## Cutting a release
+
+Releases are cut with [cargo-release](https://github.com/crate-ci/cargo-release).
+The `dist`, `dist-schema`, and `axoproject` crates share one version; the
+vendored crates under `vendor/` keep their own versions and are skipped.
+
+Because `main` only accepts changes through pull requests, a release takes two
+steps: bump the version in a pull request, then tag the merged commit.
+
+1. Make sure the `# Unreleased` section of `CHANGELOG.md` describes the
+   release.
+
+1. On a new branch from an up-to-date `main`, bump the version. Replace `patch`
+   with `minor`, `major`, or an exact version as needed:
+
+   ```sh
+   git switch -c release-prep main
+   cargo release patch --no-tag --no-push --execute
+   ```
+
+   This updates the crate versions, the `=` version requirements in the
+   workspace `Cargo.toml`, `Cargo.lock`, and the `CHANGELOG.md` headings, and
+   commits the result as `release: <version>`.
+
+1. Push the branch and open a pull request. Merge it once CI passes.
+
+1. On `main`, tag the merged commit and push the tag:
+
+   ```sh
+   git switch main
+   git pull
+   cargo release tag --execute
+   cargo release push --execute
+   ```
+
+   Pushing the `v<version>` tag starts the Release workflow, which builds the
+   artifacts, creates the GitHub release, and updates the Homebrew tap.
