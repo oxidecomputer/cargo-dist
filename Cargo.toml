@@ -22,7 +22,7 @@ version = "1.0.18"
 rust-version = "1.88"
 
 [workspace.dependencies]
-# intra-workspace deps (you need to bump these versions when you cut releases too!
+# intra-workspace deps (`cargo release` bumps these versions)
 dist-schema = { version = "=1.0.18", path = "cargo-dist-schema" }
 axoproject = { version = "=1.0.18", path = "axoproject", default-features = false, features = ["cargo-projects", "generic-projects", "npm-projects"] }
 
@@ -104,6 +104,7 @@ zstd = { version = "0.13.3" }
 [workspace.metadata.release]
 shared-version = true
 tag-name = "v{{version}}"
+tag-message = "Cut v{{version}}"
 pre-release-commit-message = "release: {{version}}"
 publish = false
 

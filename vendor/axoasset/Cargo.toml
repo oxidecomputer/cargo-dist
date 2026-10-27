@@ -5,6 +5,10 @@ version = "1.2.0"
 edition = "2021"
 license = "MIT OR Apache-2.0"
 
+# Vendored crates keep their own versions, so `cargo release` skips them.
+[package.metadata.release]
+release = false
+
 [features]
 # Default enable remote support
 default = ["remote"]
