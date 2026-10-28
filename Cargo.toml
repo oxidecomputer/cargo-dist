@@ -19,7 +19,7 @@ license = "MIT OR Apache-2.0"
 repository = "https://github.com/oxidecomputer/cargo-dist"
 homepage = "https://opensource.axo.dev/cargo-dist/"
 version = "1.0.19"
-rust-version = "1.88"
+rust-version = "1.99"
 
 [workspace.dependencies]
 # intra-workspace deps (`cargo release` bumps these versions)
